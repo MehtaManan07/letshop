@@ -66,7 +66,7 @@ exports.login = (req, res) => {
 exports.requireLogin = expressJwt({
   secret: process.env.JWT_SECRET,
   userProperty: "auth",
-  algorithms: ['RS256'] 
+  algorithms: ['HS256'] 
 });
 
 exports.logout = (req, res) => {
