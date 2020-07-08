@@ -20,7 +20,7 @@ exports.create = (req, res) => {
   form.parse(req, (error, fields, files) => {
     if (error) {
       return res.status(400).json({
-        error: "Image could not be uploaded",
+        error: "Image cannot not be uploaded",
       });
     }
 
@@ -62,5 +62,18 @@ exports.create = (req, res) => {
 
 exports.getProductById = (req,res) => {
   req.product.picture = undefined;
+  res.json(req.product)
+}
+
+exports.deleteProductById = (req,res) => {
+  let product = req.product
+  product.remove((error, deletedProduct) => {
+    if (error) {
+      return res.status(400).json({
+        error: "Product cannot not be deleted",
+      });
+    }
+    res.json({ deletedProduct })
+  })
   res.json(req.product)
 }
