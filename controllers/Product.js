@@ -4,11 +4,21 @@ const fs = require("fs");
 const Product = require("../models/product");
 // const { errorHandler } = require("../helpers/dbErrorHandler");
 
+exports.productById = (req,res,next,id) => {
+  Product.findById(id).exec((error, product) => {
+    if (error || !product) {
+      return res.json({ error: `product not found` });
+    }
+    req.product = product;
+    next()
+  })
+}
+
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
-  form.parse(req, (err, fields, files) => {
-    if (err) {
+  form.parse(req, (error, fields, files) => {
+    if (error) {
       return res.status(400).json({
         error: "Image could not be uploaded",
       });
@@ -49,3 +59,8 @@ exports.create = (req, res) => {
     });
   });
 };
+
+exports.getProductById = (req,res) => {
+  req.product.picture = undefined;
+  res.json(req.product)
+}
