@@ -88,7 +88,8 @@ exports.isAuth = (req,res,next) => {
 exports.isAdmin = (req,res,next) => {
   if(req.profile.role === 0) {
     res.status(403).json({
-      error: "Admin resource! Access Denied"
+      error: "Admin resource! Access Denied",
+      role: req.profile.role
     })
   }
   next()
