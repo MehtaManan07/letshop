@@ -1,4 +1,5 @@
 const User = require("../models/Users");
+const { errorHandler } = require("../helpers/dbErrorHandlers");
 
 exports.register = (req, res) => {
   // const { name, email, password } = req.body;
@@ -25,8 +26,10 @@ exports.register = (req, res) => {
   const newUser = new User(req.body);
   newUser.save((error, user) => {
     if(error) {
-      return res.status(400).json({ error })
+      return res.status(400).json({ error: `Email already exists` })
     } 
+    user.salt = undefined;
+    user.hashed_password = undefined;
     res.json({user})
   })
 };
