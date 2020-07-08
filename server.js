@@ -1,21 +1,18 @@
 const express = require('express');
 const morgan = require('morgan');
 const colors = require('colors');
-const mongoose = require('mongoose');
+const connectDB = require('./db')
+const cookieParser = require('cookie-parser')
 require('dotenv').config()
-const app = express();
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-},() => {
-    console.log(`mongo connected`.bgGreen)
-});
+const app = express();
 
 // Body parser
 app.use(express.json())
+//Cookie parser
+app.use(cookieParser())
+
+connectDB()
 
 // Dev logging middleware
 if (process.env.NODE_ENV === "development") {
@@ -23,7 +20,7 @@ if (process.env.NODE_ENV === "development") {
   }
 
   //Routes
-app.use('/api/users/', require('./routes/Users'))
+app.use('/api/users', require('./routes/Users'))
 
 const port = process.env.PORT || 5000;
 
