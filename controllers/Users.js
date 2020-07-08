@@ -1,5 +1,7 @@
 const User = require("../models/Users");
-const { errorHandler } = require("../helpers/dbErrorHandlers");
+const jwt = require('jsonwebtoken'); // to generate signed token
+const expressJwt = require('express-jwt') // for authorization verification
+// const { errorHandler } = require("../helpers/dbErrorHandlers");
 
 exports.register = (req, res) => {
   // const { name, email, password } = req.body;
@@ -33,3 +35,7 @@ exports.register = (req, res) => {
     res.json({user})
   })
 };
+
+exports.login = (req,res) => {
+
+}
