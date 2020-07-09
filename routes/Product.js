@@ -9,6 +9,8 @@ const {
   updateProductById,
   getAllProducts,
   getRelatedProducts,
+  getCategories,
+  listProductsBySearch,
 } = require("../controllers/Product");
 const { requireLogin, isAdmin, isAuth } = require("../controllers/Auth");
 const { userById } = require("../controllers/User");
@@ -31,6 +33,8 @@ router.put(
 );
 router.get("/", getAllProducts);
 router.get("/related/:productId", getRelatedProducts);
+router.get("/catefories", getCategories);
+router.post('/by/search', listProductsBySearch)
 
 router.param("userId", userById);
 router.param("productId", productById);
