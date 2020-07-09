@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const colors = require("colors");
 const connectDB = require("./db");
+const cors = require('cors');
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
@@ -11,6 +12,8 @@ const app = express();
 app.use(express.json());
 //Cookie parser
 app.use(cookieParser());
+// cors
+app.use(cors())
 
 connectDB();
 
