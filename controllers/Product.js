@@ -101,8 +101,8 @@ exports.updateProductById = (req, res) => {
       });
     }
 
-    let product = req.product
-    product = _.extend(product, fields)
+    let product = req.product;
+    product = _.extend(product, fields);
 
     if (files.picture) {
       if (files.picture.size > 10 ** 6) {
@@ -125,21 +125,33 @@ exports.updateProductById = (req, res) => {
   });
 };
 
-exports.getAllProducts = (req,res) => {
-  let order = req.query.order ? req.query.order : 'asc'
-  let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
-  let limit = req.query.limit ? parseInt(req.query.limit) : 6
+exports.getAllProducts = (req, res) => {
+  let order = req.query.order ? req.query.order : "asc";
+  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
   Product.find()
-  .select('-picture')
-  .populate('category')
-  .sort([[sortBy, order]])
-  .limit(limit)
-  .exec((error, data) => {
-    if(error) {
-      return res.status(400).json({ error: `Product(s) not found` })
-    }
-    res.json({ count: data.length, data})
-  })
+    .select("-picture")
+    .populate("category")
+    .sort([[sortBy, order]])
+    .limit(limit)
+    .exec((error, data) => {
+      if (error) {
+        return res.status(400).json({ error: `Product(s) not found` });
+      }
+      res.json({ count: data.length, data });
+    });
+};
 
-}
+exports.getRelatedProducts = (req, res) => {
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+  Product.find({ _id: { $ne: req.product }, category: req.product.category })
+    .limit(limit)
+    .populate("category", "_id name")
+    .exec((error, data) => {
+      if (error) {
+        return res.status(400).json({ error: `Product(s) not found` });
+      }
+      res.json({ count: data.length, data });
+    });
+};
