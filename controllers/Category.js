@@ -27,11 +27,11 @@ exports.getCategoryById = (req, res) => {
 
 exports.getAllCategories = (req, res) => {
   Category.find().exec((error, data) => {
-    // console.log(typeof data);
+    console.log(data.length);
     if (error) {
       res.status(400).json({ error: "No data found" });
     } 
-    res.json(data)
+    res.json({ count: data.length, data})
   });
 };
 
