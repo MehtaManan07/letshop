@@ -1,10 +1,11 @@
 import React from 'react'
+import Layout from '../../components/Layout'
 
 const Register = () => {
     return (
-        <div>
+        <Layout title="Register" description="Register yourself to start purchasing..." >
             Register
-        </div>
+        </Layout>
     )
 }
 

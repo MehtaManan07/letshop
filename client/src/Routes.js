@@ -8,12 +8,11 @@ import Navbar from "./components/Navbar";
 const Routes = () => {
   return (
     <Fragment>
-    <Navbar />
-    <Switch>
-    <Route path="/" exact component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/register" component={Register} />
-    </Switch>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+      </Switch>
     </Fragment>
   );
 };
