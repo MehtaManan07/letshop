@@ -20,7 +20,7 @@ exports.create = (req, res) => {
   form.parse(req, (error, fields, files) => {
     if (error) {
       return res.status(400).json({
-        error: "Image cannot not be uploaded",
+        error: "picture cannot not be uploaded",
       });
     }
 
@@ -42,7 +42,7 @@ exports.create = (req, res) => {
     if (files.picture) {
       if (files.picture.size > 10 ** 6) {
         return res.status(400).json({
-          error: "Size of image must be less than 1 mb",
+          error: "Size of picture must be less than 1 mb",
         });
       }
       product.picture.data = fs.readFileSync(files.picture.path);
@@ -84,7 +84,7 @@ exports.updateProductById = (req, res) => {
   form.parse(req, (error, fields, files) => {
     if (error) {
       return res.status(400).json({
-        error: "Image cannot not be uploaded",
+        error: "picture cannot not be uploaded",
       });
     }
 
@@ -107,7 +107,7 @@ exports.updateProductById = (req, res) => {
     if (files.picture) {
       if (files.picture.size > 10 ** 6) {
         return res.status(400).json({
-          error: "Size of image must be less than 1 mb",
+          error: "Size of picture must be less than 1 mb",
         });
       }
       product.picture.data = fs.readFileSync(files.picture.path);
@@ -173,9 +173,6 @@ exports.getCategories = (req, res) => {
  * we will make api request and show the products to users based on what they need 9227193553
  */
 
-// route - make sure its post
-router.post("/products/by/search", listBySearch);
-
 exports.listProductsBySearch = (req, res) => {
   let order = req.body.order ? req.body.order : "desc";
   let sortBy = req.body.sortBy ? req.body.sortBy : "_id";
@@ -219,3 +216,12 @@ exports.listProductsBySearch = (req, res) => {
       });
     });
 };
+
+exports.getpicture = (req,res,next) => {
+  console.log(req.product.picture)
+  if(req.product.picture.data) {
+    res.set('Content-Type', req.product.picture.contentType)
+    return res.send(req.product.picture.data)
+  }
+  next()
+}

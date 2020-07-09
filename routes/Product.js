@@ -11,6 +11,7 @@ const {
   getRelatedProducts,
   getCategories,
   listProductsBySearch,
+  getpicture,
 } = require("../controllers/Product");
 const { requireLogin, isAdmin, isAuth } = require("../controllers/Auth");
 const { userById } = require("../controllers/User");
@@ -35,6 +36,7 @@ router.get("/", getAllProducts);
 router.get("/related/:productId", getRelatedProducts);
 router.get("/catefories", getCategories);
 router.post('/by/search', listProductsBySearch)
+router.get('/picture/:productId', getpicture)
 
 router.param("userId", userById);
 router.param("productId", productById);
