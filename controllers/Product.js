@@ -124,3 +124,22 @@ exports.updateProductById = (req, res) => {
     });
   });
 };
+
+exports.getAllProducts = (req,res) => {
+  let order = req.query.order ? req.query.order : 'asc'
+  let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6
+
+  Product.find()
+  .select('-picture')
+  .populate('category')
+  .sort([[sortBy, order]])
+  .limit(limit)
+  .exec((error, data) => {
+    if(error) {
+      return res.status(400).json({ error: `Product(s) not found` })
+    }
+    res.json({ count: data.length, data})
+  })
+
+}
