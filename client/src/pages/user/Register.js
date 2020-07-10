@@ -1,27 +1,72 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import { API } from "../../config";
 
 const Register = () => {
-    const [values, setValues] = useState({
-        name: '',
-        email: '',
-        password: '',
-        error: '',
-        success: false
-    })
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    error: "",
+    success: false,
+    showPassword: false,
+  });
 
-    const onChangeHandler = name => event => {
-        setValues({ ...values, error: false, [name]: event.target.value })
-    }
+  const { name, email, password } = values;
+
+  const register = (user) => {
+    return axios
+      .post(`${API}/auth/register`, JSON.stringify(user), {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        return response;
+      })
+      .catch((error) => {
+        console.log(error);
+        return error.response.data;
+      });
+  };
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: false });
+    register({ name, email, password }).then((data) => {
+      if (data.error) {
+        console.log('reached data.error')
+        setValues({ ...values, error: data.error, success: false });
+        toast.error(data.error)
+      } else {
+        console.log('reached data.success')
+        toast.success(`Welcome, ${name.split(' ')[0]}`)
+        setValues({
+          ...values,
+          name: "",
+          email: "",
+          password: "",
+          error: "",
+          success: true,
+        });
+      }
+    });
+  };
+
+  const onChangeHandler = (name) => (event) => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
   const registrationForm = () => (
-    <form>
+    <form onSubmit={onSubmitHandler}>
       <div className="form-group">
         <label className="text-muted"> Name </label>
         <input
           type="text"
           placeholder="Enter your name"
           className="form-control"
-          onChange={onChangeHandler('name')}
+          onChange={onChangeHandler("name")}
+          value={name}
         />
       </div>
       <div className="form-group">
@@ -30,7 +75,8 @@ const Register = () => {
           type="email"
           placeholder="Enter your email"
           className="form-control"
-          onChange={onChangeHandler('email')}
+          onChange={onChangeHandler("email")}
+          value={email}
         />
       </div>
       <div className="form-group">
@@ -39,10 +85,18 @@ const Register = () => {
           type="password"
           placeholder="Enter your password"
           className="form-control"
-          onChange={onChangeHandler('password')}
+          onChange={onChangeHandler("password")}
+          value={password}
         />
       </div>
-      <button className="btn btn-outline-dark col-md-5 offset-md-3"> SUBMIT </button>
+      <div className="d-flex justify-content-center">
+        <button
+          className="btn col-4 btn-outline-dark"
+          onClick={onSubmitHandler}
+        >
+          SUBMIT
+        </button>
+      </div>
     </form>
   );
 
@@ -53,6 +107,7 @@ const Register = () => {
       description="Register yourself to start purchasing..."
     >
       {registrationForm()}
+      <ToastContainer />
     </Layout>
   );
 };
