@@ -33,6 +33,13 @@ const Navbar = (props) => {
     <div className="ml-auto navbar-nav">
       <Link
         className="nav-item nav-link"
+        style={isActive(props.history, "/dashboard")}
+        to="/dashboard"
+      >
+        DashBoard
+      </Link>
+      <Link
+        className="nav-item nav-link"
         style={{ cursor: "pointer", color: "#fff" }}
         onClick={() => logout(() => props.history.push("/"))}
       >
