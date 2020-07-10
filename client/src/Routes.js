@@ -8,6 +8,7 @@ import UserDashboard from "./pages/user/UserDashboard";
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from './pages/admin/AdminDashBoard'
 import AddCategory from "./pages/admin/AddCategory";
+import AddProduct from "./pages/admin/AddProduct";
 
 
 const Routes = () => {
@@ -20,6 +21,7 @@ const Routes = () => {
         <PrivateRoute path="/userDashboard" component={UserDashboard} />
         <AdminRoute path="/adminDashboard" component={AdminDashboard} />
         <AdminRoute path="/create/category" component={AddCategory} />
+        <AdminRoute path="/create/product" component={AddProduct} />
       </Switch>
     </Fragment>
   );

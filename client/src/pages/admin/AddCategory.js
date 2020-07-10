@@ -3,18 +3,15 @@ import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
 import { createCategory } from "../../functions/admin";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const AddCategory = () => {
-    
+
   const [name, setName] = useState("");
   const [error, setError] = useState(false);
   const [success, setSUccess] = useState(false);
 
   const { data } = isAuth();
-  useEffect(() => {
-    console.log(isAuth());
-  }, []);
-
   const onChangeHandler = (e) => {
     setError("");
     setName(e.target.value);

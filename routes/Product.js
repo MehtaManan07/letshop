@@ -34,7 +34,7 @@ router.put(
 );
 router.get("/", getAllProducts);
 router.get("/related/:productId", getRelatedProducts);
-router.get("/catefories", getCategories);
+router.get("/categories", getCategories);
 router.post('/by/search', listProductsBySearch)
 router.get('/picture/:productId', getpicture)
 

@@ -21,3 +21,22 @@ export const createCategory = (userId, token, category) => {
       return error.response.data;
     });
 };
+
+export const createProduct = (userId, token, product) => {
+  return Axios.post(
+    `${API}/product/create/${userId}`,
+    JSON.stringify(product),
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    }
+  )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+      return error.response.data;
+    });
+};
