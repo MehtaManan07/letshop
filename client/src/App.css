@@ -1,0 +1,8 @@
+.logout {
+    color: #fff;
+}
+
+.logout:hover {
+    cursor: pointer;
+    color: #ff9900;
+}

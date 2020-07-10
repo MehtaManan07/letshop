@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { login } from "../../functions/auth";
+import { login, authenticate } from "../../functions/auth";
 import Loader from "../../components/Loader";
 import { Redirect } from "react-router-dom";
 
 const Login = () => {
   const [values, setValues] = useState({
-    email: "",
-    password: "",
+    email: "a@.com",
+    password: "password",
     error: "",
     loading: false,
     redirectToRef: false,
@@ -27,10 +27,13 @@ const Login = () => {
         toast.error(data.error);
       } else {
         console.log("reached data.success");
-        toast.success('Welcome');
-        setValues({
-          ...values,
-          redirectToRef: true,
+        toast.success("Welcome");
+        authenticate(data, () => {
+          setValues({
+            ...values,
+            redirectToRef: true,
+          });
+          // console.log(authenticate().data)
         });
       }
     });

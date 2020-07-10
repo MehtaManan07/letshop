@@ -3,6 +3,7 @@ import Layout from "../../components/Layout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { register } from "../../functions/auth";
+import { Redirect, Link } from "react-router-dom";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -14,7 +15,7 @@ const Register = () => {
     showPassword: false,
   });
 
-  const { name, email, password } = values;
+  const { name, email, password, success } = values;
 
 
   const onSubmitHandler = (event) => {
@@ -27,7 +28,6 @@ const Register = () => {
         toast.error(data.error)
       } else {
         console.log('reached data.success')
-        toast.success(`Welcome, ${name.split(' ')[0]}`)
         setValues({
           ...values,
           name: "",
@@ -86,12 +86,19 @@ const Register = () => {
     </form>
   );
 
+  const successAlert = () => (
+    <div className="alert alert-info" style={{ display:  success ? '' : 'none' } } >
+      {`Welcome`}, please <Link to="/login" > Login </Link>
+    </div>
+  )
+
   return (
     <Layout
       title="Register"
       className="container col-md-8 offset-md-2"
       description="Register yourself to start purchasing..."
     >
+    {successAlert()}
       {registrationForm()}
       <ToastContainer />
     </Layout>

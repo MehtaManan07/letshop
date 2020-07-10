@@ -28,3 +28,20 @@ export const register = (user) => {
         return error.response.data;
       });
   };
+
+  export const authenticate = (data, next) => {
+    if(typeof window !== 'undefined') {
+      localStorage.setItem('jwt',JSON.stringify(data))
+      next()
+    }
+  }
+
+  export const logout = (next) => {
+    if(typeof window !== 'undefined') {
+      localStorage.removeItem('jwt');
+      next()
+      return axios.get(`${API}/auth/logout`)
+      .then(response => console.log('logout', response))
+      .catch(error => console.log('logout:',error))
+    }
+  }
