@@ -88,9 +88,9 @@ const Register = () => {
 
   const successAlert = () => (
     <div className="alert alert-info" style={{ display:  success ? '' : 'none' } } >
-      {`Welcome`}, please <Link to="/login" > Login </Link>
+      Registered successfully, please <Link to="/login" > Login </Link>
     </div>
-  )
+  );
 
   return (
     <Layout

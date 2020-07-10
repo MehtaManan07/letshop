@@ -33,8 +33,8 @@ const Navbar = (props) => {
     <div className="ml-auto navbar-nav">
       <Link
         className="nav-item nav-link"
-        style={isActive(props.history, "/dashboard")}
-        to="/dashboard"
+        style={isActive(props.history, "/userDashboard")}
+        to="/userDashboard"
       >
         DashBoard
       </Link>

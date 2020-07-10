@@ -5,17 +5,18 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { login, authenticate } from "../../functions/auth";
 import Loader from "../../components/Loader";
 import { Redirect } from "react-router-dom";
+import { isAuth } from "../../functions/auth";
 
 const Login = () => {
   const [values, setValues] = useState({
-    email: "a@.com",
+    email: "a@b.com",
     password: "password",
     error: "",
     loading: false,
     redirectToRef: false,
   });
-
-  const { name, email, password, loading, redirectToRef } = values;
+  
+  const { email, password, loading, redirectToRef } = values;
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -77,7 +78,11 @@ const Login = () => {
 
   const redirectUser = () => {
     if (redirectToRef) {
-      return <Redirect to="/" />;
+      if( isAuth() && isAuth().data.user.role === 0 ) {
+        return <Redirect to="/userDashboard" />;
+      } else {
+        return <Redirect to="/adminDashboard" />
+      }
     }
   };
 
