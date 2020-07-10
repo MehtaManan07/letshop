@@ -47,6 +47,27 @@ const Navbar = (props) => {
       </li>
     </div>
   );
+
+  
+  const adminLinks = (
+    <div className="ml-auto navbar-nav">
+      <Link
+        className="nav-item nav-link"
+        style={isActive(props.history, "/adminDashboard")}
+        to="/adminDashboard"
+      >
+        DashBoardd
+      </Link>
+      <li
+        className="nav-item nav-link"
+        style={{ cursor: "pointer", color: "#fff" }}
+        onClick={() => logout(() => props.history.push("/"))}
+      >
+        Logout
+      </li>
+    </div>
+  );
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link
@@ -68,7 +89,11 @@ const Navbar = (props) => {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-        {isAuth() ? authLinks : guestLinks}
+        {isAuth()
+          ? isAuth().data.user.role === 1
+            ? adminLinks
+            : authLinks
+          : guestLinks}
       </div>
     </nav>
   );

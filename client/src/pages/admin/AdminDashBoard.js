@@ -9,7 +9,7 @@ const AdminDashboard = () => {
     },
   } = isAuth();
 
-  const userInfo = () => (
+  const adminInfo = () => (
     <div className="card mb-5">
       <h3 className="card-header"> User Information </h3>
       <table className="table">
@@ -60,7 +60,10 @@ const AdminDashboard = () => {
   const ordersHistory = () => {
     return (
       <div className="card mb-5">
-        <h3 className="card-header"> Purchase History </h3>
+      <div className="row container">
+        <h3 className="col-9"> Orders History </h3>
+        <button className="col-3 btn btn-outline-dark"> Details </button>
+      </div>
         <li className="list-group-item"> Role </li>
       </div>
     );
@@ -73,9 +76,9 @@ const AdminDashboard = () => {
       description={`Hello ${name}`}
     >
       <div className="row">
-        <div className="col-3"> {userLinks()} </div>
+        <div className="col-3"> {adminLinks()} </div>
         <div className="col-9">
-          {userInfo()}
+          {adminInfo()}
           {ordersHistory()}
         </div>
       </div>
