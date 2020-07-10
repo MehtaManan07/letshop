@@ -7,6 +7,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import UserDashboard from "./pages/user/UserDashboard";
 import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from './pages/admin/AdminDashBoard'
+import AddCategory from "./pages/admin/AddCategory";
 
 
 const Routes = () => {
@@ -18,6 +19,7 @@ const Routes = () => {
         <Route path="/register" component={Register} />
         <PrivateRoute path="/userDashboard" component={UserDashboard} />
         <AdminRoute path="/adminDashboard" component={AdminDashboard} />
+        <AdminRoute path="/create/category" component={AddCategory} />
       </Switch>
     </Fragment>
   );
