@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { API } from "../../config";
+import { register } from "../../functions/auth";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -17,19 +16,6 @@ const Register = () => {
 
   const { name, email, password } = values;
 
-  const register = (user) => {
-    return axios
-      .post(`${API}/auth/register`, JSON.stringify(user), {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        return response;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error.response.data;
-      });
-  };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
