@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import { logout } from '../functions/auth'
-import '../App.css'
+import { logout, isAuth } from "../functions/auth";
+import "../App.css";
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
     return { color: "#ff9900" };
@@ -11,6 +11,35 @@ const isActive = (history, path) => {
 };
 
 const Navbar = (props) => {
+  const guestLinks = (
+    <div className="ml-auto navbar-nav">
+      <Link
+        className="nav-item nav-link"
+        style={isActive(props.history, "/login")}
+        to="/login"
+      >
+        Login
+      </Link>
+      <Link
+        className="nav-item nav-link"
+        style={isActive(props.history, "/register")}
+        to="/register"
+      >
+        Register
+      </Link>
+    </div>
+  );
+  const authLinks = (
+    <div className="ml-auto navbar-nav">
+      <Link
+        className="nav-item nav-link"
+        style={{ cursor: "pointer", color: "#fff" }}
+        onClick={() => logout(() => props.history.push("/"))}
+      >
+        Logout
+      </Link>
+    </div>
+  );
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link
@@ -32,29 +61,7 @@ const Navbar = (props) => {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div className="ml-auto navbar-nav">
-          <Link
-            className="nav-item nav-link"
-            style={isActive(props.history, "/login")}
-            to="/login"
-          >
-            Login
-          </Link>
-          <Link
-            className="nav-item nav-link"
-            style={isActive(props.history, "/register")}
-            to="/register"
-          >
-            Register
-          </Link>
-          <Link
-            className="nav-item nav-link"
-            style={{ cursor: 'pointer', color: '#fff' }}
-            onClick={() => logout(() => props.history.push('/'))}
-          >
-            Logout
-          </Link>
-        </div>
+        {isAuth() ? authLinks : guestLinks}
       </div>
     </nav>
   );

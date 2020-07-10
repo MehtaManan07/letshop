@@ -45,3 +45,12 @@ export const register = (user) => {
       .catch(error => console.log('logout:',error))
     }
   }
+
+  export const isAuth = () => {
+    if(typeof window == 'undefined') {
+      return false;
+    }
+    if(localStorage.getItem('jwt')) {
+      return JSON.parse(localStorage.getItem('jwt'))
+    } else return false;
+  }
