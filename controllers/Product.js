@@ -20,22 +20,31 @@ exports.create = (req, res) => {
   form.parse(req, (error, fields, files) => {
     if (error) {
       return res.status(400).json({
-        error: "picture cannot not be uploaded",
+        error: "Image cannot not be uploaded",
       });
     }
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      shipping
+  } = fields;
+  console.log(fields)
 
-    if (
-      !fields.name ||
-      !fields.description ||
-      !fields.price ||
-      !fields.category ||
-      !fields.quantity ||
-      !fields.shipping
-    ) {
+  if (
+      !name ||
+      !description ||
+      !price ||
+      !category ||
+      !quantity ||
+      !shipping
+  ) {
       return res.status(400).json({
-        error: "All fields are required",
+          error: "All fields are required"
       });
-    }
+  }
 
     let product = new Product(fields);
 
@@ -51,6 +60,7 @@ exports.create = (req, res) => {
 
     product.save((error, result) => {
       if (error) {
+        console.log(error)
         return res.status(400).json({
           error,
         });

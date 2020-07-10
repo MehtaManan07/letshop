@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { register } from "../../functions/auth";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [values, setValues] = useState({

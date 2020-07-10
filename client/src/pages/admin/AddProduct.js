@@ -1,22 +1,75 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
-import { createCategory } from "../../functions/admin";
+import { createProduct } from "../../functions/admin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import AddProductForm from "../../components/AddProductForm";
 
 const AddProduct = () => {
+  const [values, setValues] = useState({
+    name: "",
+    description: "",
+    price: "",
+    categories: [],
+    category: "",
+    shipping: "",
+    quantity: "",
+    picture: "",
+    loading: false,
+    error: "",
+    createdProduct: "",
+    redirectToProfile: false,
+    formData: "",
+  });
+
   const {
-    data: {
-      user: { name, email, role },
-      token,
-    },
+    data: { user, token },
   } = isAuth();
 
+  useEffect(() => {
+    setValues({ ...values, formData: new FormData() });
+  }, []);
+
+  const handleChange = (name) => (event) => {
+    const value =
+      name === "picture" ? event.target.files[0] : event.target.value;
+    values.formData.set(name, value);
+    setValues({ ...values, [name]: value });
+  };
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: "", loading: true });
+
+    createProduct(user._id, token, values.formData).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          description: "",
+          picture: "",
+          price: "",
+          quantity: "",
+          loading: false,
+          createdProduct: data.name,
+        });
+      }
+    });
+  };
+
   return (
-    <Layout title="Add Product" description="Add a new product to your shop...">
+    <Layout title="Add a new product" description="Add a new product">
       <div className="row">
-        <div className="col-md-8 offset-md-2"></div>
+        <div className="col-md-8 offset-md-2">
+          <AddProductForm
+            values={values}
+            onSubmitHandler={onSubmitHandler}
+            handleChange={handleChange}
+          />
+        </div>
       </div>
     </Layout>
   );

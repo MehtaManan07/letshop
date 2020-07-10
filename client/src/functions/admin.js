@@ -23,20 +23,19 @@ export const createCategory = (userId, token, category) => {
 };
 
 export const createProduct = (userId, token, product) => {
-  return Axios.post(
-    `${API}/product/create/${userId}`,
-    JSON.stringify(product),
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, 
-      },
-    }
-  )
+  return fetch(`${API}/product/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: product,
+  })
     .then((response) => {
-      return response;
+      return response.json();
     })
-    .catch((error) => {
-      console.log(error.response.data);
-      return error.response.data;
+    .catch((err) => {
+      console.log(err);
     });
 };
+  
