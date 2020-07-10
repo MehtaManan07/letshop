@@ -38,13 +38,13 @@ const Navbar = (props) => {
       >
         DashBoard
       </Link>
-      <Link
+      <li
         className="nav-item nav-link"
         style={{ cursor: "pointer", color: "#fff" }}
         onClick={() => logout(() => props.history.push("/"))}
       >
         Logout
-      </Link>
+      </li>
     </div>
   );
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
+import { Link } from "react-router-dom";
 const UserDashboard = () => {
   const {
     data: {
@@ -8,15 +9,16 @@ const UserDashboard = () => {
     },
   } = isAuth();
 
-  return (
-    <Layout title="User Dashboard" className="container" description="profile">
-      <div className="card mb-5">
-        <h3 className="card-header"> User Information </h3>
-        <table className="table">
+  const userInfo = () => (
+    <div className="card mb-5">
+      <h3 className="card-header"> User Information </h3>
+      <table className="table">
         <thead>
-          <th scope="col"> # </th>
-          <th scope="col"> Fields </th>
-          <th scope="col"> Data </th>
+          <tr>
+            <th scope="col"> # </th>
+            <th scope="col"> Fields </th>
+            <th scope="col"> Data </th>
+          </tr>
         </thead>
         <tbody>
           <tr>
@@ -32,14 +34,50 @@ const UserDashboard = () => {
           <tr>
             <th scope="row"> 3 </th>
             <th scope="row"> Role </th>
-            <th scope="row"> {role === 1 ? 'Admin' : 'Registered User'} </th>
+            <th scope="row"> {role === 1 ? "Admin" : "Registered User"} </th>
           </tr>
         </tbody>
-        </table>
+      </table>
+    </div>
+  );
+
+  const userLinks = () => {
+    return (
+      <div className="card">
+        <h3 className="card-header"> User Links </h3>
+        <ul className="list-group">
+          <Link className="nav-link" to="/cart">
+            My Cart
+          </Link>
+          <Link className="nav-link" to="/profile/update">
+            Update Profile
+          </Link>
+        </ul>
       </div>
+    );
+  };
+
+  const purchaseHistory = () => {
+    return (
       <div className="card mb-5">
         <h3 className="card-header"> Purchase History </h3>
         <li className="list-group-item"> Role </li>
+      </div>
+    );
+  };
+
+  return (
+    <Layout
+      title="User Dashboard"
+      className="container"
+      description={`Hello ${name}`}
+    >
+      <div className="row">
+        <div className="col-3"> {userLinks()} </div>
+        <div className="col-9">
+          {userInfo()}
+          {purchaseHistory()}
+        </div>
       </div>
     </Layout>
   );
