@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { logout, isAuth } from "../functions/auth";
+import Logo from './logo.jpg'
+
 import "../App.css";
 const isActive = (history, path) => {
   if (history.location.pathname === path) {

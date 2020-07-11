@@ -4,10 +4,14 @@ import { getCategories } from "../functions/admin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Checkbox from "../components/Checkbox";
+import { prices } from "../components/FixedPrices";
 
 const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
+  const [myFilters, setMyFilters] = useState({
+    filters: { category: [], price: [] },
+  });
 
   const init = () => {
     getCategories().then((response) => {
@@ -26,7 +30,9 @@ const Shop = () => {
   }, []);
 
   const handleFilters = (filters, filterBy) => {
-    console.log(filters, filterBy);
+    const newFilters = { ...myFilters }
+    newFilters.filters[filterBy] = filters;
+    setMyFilters(newFilters)
   };
 
   return (
@@ -45,7 +51,7 @@ const Shop = () => {
             />
           </ul>
         </div>
-        <div className="col-8">right section</div>
+        <div className="col-8"> right section </div>
       </div>
     </Layout>
   );
