@@ -27,6 +27,13 @@ const Navbar = (props) => {
       >
         Register
       </Link>
+      <Link
+        className="nav-item nav-link"
+        style={isActive(props.history, "/shop")}
+        to="/shop"
+      >
+        Shop
+      </Link>
     </div>
   );
   const authLinks = (
