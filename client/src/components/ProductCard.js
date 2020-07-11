@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ProductCardImage from "./ProductCardImage";
 
 const ProductCard = ({ product }) => {
   return (
@@ -7,6 +8,7 @@ const ProductCard = ({ product }) => {
       <div className="card">
         <h3 className="card-header"> {product.name} </h3>
         <div className="card-body">
+        <ProductCardImage item={product} url="product" />
           <p> {product.description} </p>
           <p> $ {product.price} </p>
           <Link to="/">
