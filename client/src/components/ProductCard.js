@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
         <h3 className="card-header"> {product.name} </h3>
         <div className="card-body">
         <ProductCardImage item={product} url="product" />
-          <p> {product.description} </p>
+          <p> {product.description.split(' ').slice(0,10).join(' ')} </p>
           <p> $ {product.price} </p>
           <Link to="/">
             <button className="btn btn-outline-secondary mt-2 mb-2">

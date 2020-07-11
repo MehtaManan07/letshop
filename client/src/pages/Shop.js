@@ -6,14 +6,15 @@ import "react-toastify/dist/ReactToastify.min.css";
 import Checkbox from "../components/Checkbox";
 import { prices } from "../components/FixedPrices";
 import RadioBox from "../components/RadioBox";
+import ProductCard from "../components/ProductCard";
 import { getFilteredProducts } from "../functions/core";
 
 const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
-  const [skip, setSkip] = useState(0)
-  const [limit, setLimit] = useState(6)
-  const [filteredResults, setFilteredResults] = useState([])
+  const [skip, setSkip] = useState(0);
+  const [limit, setLimit] = useState(6);
+  const [filteredResults, setFilteredResults] = useState([]);
   const [myFilters, setMyFilters] = useState({
     filters: { category: [], price: [] },
   });
@@ -31,22 +32,20 @@ const Shop = () => {
   };
 
   const loadFilteredResults = (filter) => {
-    console.log(filter)
-    getFilteredProducts(skip, limit,filter)
-    .then((response => {
-      if(response.error) {
-        setError(response.error)
+    console.log(filter);
+    getFilteredProducts(skip, limit, filter).then((response) => {
+      if (response.error) {
+        setError(response.error);
       } else {
-        console.log(response)
-        setFilteredResults(response)
+        console.log(response);
+        setFilteredResults(response.data);
       }
-    }))
-  }
-
+    });
+  };
 
   useEffect(() => {
     init();
-    loadFilteredResults(myFilters.filters)
+    loadFilteredResults(myFilters.filters);
   }, []);
 
   const handleFilters = (filters, filterBy) => {
@@ -56,7 +55,7 @@ const Shop = () => {
       let priceValues = handlePrice(filters);
       newFilters.filters[filterBy] = priceValues;
     }
-    loadFilteredResults(myFilters.filters)
+    loadFilteredResults(myFilters.filters);
     setMyFilters(newFilters);
   };
 
@@ -95,7 +94,14 @@ const Shop = () => {
             />
           </div>
         </div>
-        <div className="col-8"> right section </div>
+        <div className="col-8">
+          <h2 className="mb-4"> Products </h2>
+          <div className="row">
+            {filteredResults.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        </div>
       </div>
     </Layout>
   );
