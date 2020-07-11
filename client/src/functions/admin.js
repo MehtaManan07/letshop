@@ -46,7 +46,7 @@ export const getCategories = () => {
       return response.data
     })
     .catch((error) => {
-      return error;
       console.log(error);
+      return error;
     });
 };

@@ -70,10 +70,9 @@ const AddProduct = () => {
         toast.success(`Product created successfully`);
         setValues({
           ...values,
-          picture: '',
+          picture: "",
           name: "",
           description: "",
-          picture: "",
           price: "",
           quantity: "",
           loading: false,
