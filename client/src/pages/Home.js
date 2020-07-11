@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { getProducts } from "../functions/core";
+import ProductCard from "../components/ProductCard";
 
 const Home = () => {
   const [productsBySell, setProductsBySell] = useState([]);
@@ -15,7 +16,7 @@ const Home = () => {
         setError(response.error);
       } else {
         setProductsBySell(response.data);
-        setProductCount(response.count)
+        setProductCount(response.count);
       }
     });
   };
@@ -27,18 +28,31 @@ const Home = () => {
         setError(response.error);
       } else {
         setProductsByArrival(response.data);
-        setProductCount(response.count)
+        setProductCount(response.count);
       }
     });
   };
-  
+
   useEffect(() => {
     loadProductsBySell();
     loadProductsByArrival();
   }, []);
 
   return (
-    <Layout title="Home page" description="Ecommerce application"></Layout>
+    <Layout title="Home page" description="Ecommerce application" className="container-fluid">
+      <h2 className="mb-4"> Best Sellers </h2>
+      <div className="row">
+        {productsBySell.map((product) => (
+          <ProductCard product={product} key={product._id} />
+        ))}
+      </div>
+      <h2 className="mb-4"> Latest Arrivals </h2>
+      <div className="row">
+        {productsByArrival.map((product) => (
+          <ProductCard product={product} key={product._id} />
+        ))}
+      </div>
+    </Layout>
   );
 };
 
