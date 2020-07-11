@@ -70,6 +70,7 @@ const AddProduct = () => {
         toast.success(`Product created successfully`);
         setValues({
           ...values,
+          picture: '',
           name: "",
           description: "",
           picture: "",

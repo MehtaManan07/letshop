@@ -4,6 +4,7 @@ import { isAuth } from "../../functions/auth";
 import { createCategory } from "../../functions/admin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { Link } from "react-router-dom";
 
 const AddCategory = () => {
 
@@ -28,7 +29,7 @@ const AddCategory = () => {
       } else {
         setError("");
         setSUccess(true);
-        console.log(response);
+        toast.success(`New category added`)
       }
     });
   };
@@ -47,7 +48,12 @@ const AddCategory = () => {
           value={name}
         />
         <div className="d-flex justify-content-center mt-2">
-          <button className="btn btn-outline-success"> Add Category </button>
+          <button className="btn btn-outline-success mr-3"> Add Category </button>
+            <Link to="/adminDashboard">
+          <button className="btn btn-outline-secondary">
+             Cancel 
+          </button>
+             </Link>
         </div>
       </div>
     </form>

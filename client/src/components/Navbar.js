@@ -75,7 +75,7 @@ const Navbar = (props) => {
         style={isActive(props.history, "/")}
         className="navbar-brand"
       >
-        Let's Shop
+        BookMart
       </Link>
       <button
         className="navbar-toggler"

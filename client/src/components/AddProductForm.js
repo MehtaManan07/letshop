@@ -41,6 +41,7 @@ const AddProductForm = ({ values, onSubmitHandler, handleChange }) => {
           onChange={handleChange("price")}
           type="number"
           className="form-control"
+          min="1"
           value={values.price}
         />
       </div>
@@ -72,6 +73,7 @@ const AddProductForm = ({ values, onSubmitHandler, handleChange }) => {
         <input
           onChange={handleChange("quantity")}
           type="number"
+          min="0"
           className="form-control"
           value={values.quantity}
         />
