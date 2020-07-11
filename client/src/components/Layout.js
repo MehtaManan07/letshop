@@ -1,5 +1,7 @@
 import React from "react";
 import Navbar from './Navbar'
+import '../App.css'
+
 const Layout = ({
   title = "Title",
   description = "Description",
