@@ -40,6 +40,13 @@ const Navbar = (props) => {
     <div className="ml-auto navbar-nav">
       <Link
         className="nav-item nav-link"
+        style={isActive(props.history, "/shop")}
+        to="/shop"
+      >
+        Shop
+      </Link>
+      <Link
+        className="nav-item nav-link"
         style={isActive(props.history, "/userDashboard")}
         to="/userDashboard"
       >
@@ -55,7 +62,6 @@ const Navbar = (props) => {
     </div>
   );
 
-  
   const adminLinks = (
     <div className="ml-auto navbar-nav">
       <Link
