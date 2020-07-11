@@ -55,7 +55,6 @@ exports.logout = (req, res) => {
 
 exports.isAuth = (req,res,next) => {
   let user = req.profile && req.auth && req.profile._id == req.auth._id
-  console.log(req.auth)
   if(!user) {
     res.status(403).json({
       error: "Access Denied"

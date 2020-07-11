@@ -30,12 +30,10 @@ const AddProduct = () => {
 
   const init = () => {
     getCategories().then((response) => {
-      console.log(response);
       if (response.error) {
         setValues({ ...values, error: response.error });
         toast.error(response.error);
       } else {
-        console.log("response:", response);
         response.data &&
           setValues({
             ...values,

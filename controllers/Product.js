@@ -31,7 +31,6 @@ exports.create = (req, res) => {
       quantity,
       shipping
   } = fields;
-  console.log(fields)
 
   if (
       !name ||
@@ -228,7 +227,6 @@ exports.listProductsBySearch = (req, res) => {
 };
 
 exports.getpicture = (req,res,next) => {
-  console.log(req.product.picture)
   if(req.product.picture.data) {
     res.set('Content-Type', req.product.picture.contentType)
     return res.send(req.product.picture.data)

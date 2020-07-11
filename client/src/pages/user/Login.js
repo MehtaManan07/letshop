@@ -23,18 +23,17 @@ const Login = () => {
     setValues({ ...values, error: false });
     login({ email, password }).then((data) => {
       if (data.error) {
-        console.log("reached data.error");
+        console.log('LOGIN ERROR:',data.error)
         setValues({ ...values, error: data.error, loading: false });
         toast.error(data.error);
       } else {
-        console.log("reached data.success");
+        console.log('LOGIN SUCCESS:',data)
         toast.success("Welcome");
         authenticate(data, () => {
           setValues({
             ...values,
             redirectToRef: true,
           });
-          // console.log(authenticate().data)
         });
       }
     });

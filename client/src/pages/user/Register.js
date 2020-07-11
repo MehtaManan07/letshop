@@ -23,11 +23,11 @@ const Register = () => {
     setValues({ ...values, error: false });
     register({ name, email, password }).then((data) => {
       if (data.error) {
-        console.log('reached data.error')
+        console.log('REGISTER ERROR:',data.error)
         setValues({ ...values, error: data.error, success: false });
         toast.error(data.error)
       } else {
-        console.log('reached data.success')
+        console.log('REGISTER SUCCESS:',data)
         setValues({
           ...values,
           name: "",

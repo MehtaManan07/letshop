@@ -11,7 +11,7 @@ const Home = () => {
 
   const loadProductsBySell = () => {
     getProducts("sold").then((response) => {
-      console.log(response);
+
       if (response.error) {
         setError(response.error);
       } else {
@@ -23,7 +23,7 @@ const Home = () => {
 
   const loadProductsByArrival = () => {
     getProducts("createdAt").then((response) => {
-      console.log(response);
+
       if (response.error) {
         setError(response.error);
       } else {
