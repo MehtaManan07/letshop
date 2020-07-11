@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import Checkbox from "../components/Checkbox";
 import { prices } from "../components/FixedPrices";
+import RadioBox from "../components/RadioBox";
 
 const Shop = () => {
   const [categories, setCategories] = useState([]);
@@ -32,14 +33,30 @@ const Shop = () => {
   const handleFilters = (filters, filterBy) => {
     const newFilters = { ...myFilters }
     newFilters.filters[filterBy] = filters;
+    if(filterBy === 'price') {
+      let priceValues = handlePrice(filters)
+      newFilters.filters[filterBy] = priceValues;
+    }
     setMyFilters(newFilters)
   };
+
+  const handlePrice = value => {
+    let array = [];
+    for(let key in prices) {
+      if(prices[key]._id === parseInt(value)) {
+        console.log('values:',value)
+        array = prices[key].array
+        console.log(array)
+      }
+    }
+    return array
+  }
 
   return (
     <Layout
       title="Shop Page"
       description="Search and find the best books for you"
-      className="container-fluid"
+      className="container-fluid mb-3"
     >
       <div className="row">
         <div className="col-4">
@@ -50,6 +67,13 @@ const Shop = () => {
               handleFilters={(filters) => handleFilters(filters, "category")}
             />
           </ul>
+          <h5> Filter by price range </h5>
+          <div>
+            <RadioBox
+              prices={prices}
+              handleFilters={(filters) => handleFilters(filters, "price")}
+            />
+          </div>
         </div>
         <div className="col-8"> right section </div>
       </div>
