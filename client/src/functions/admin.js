@@ -38,4 +38,15 @@ export const createProduct = (userId, token, product) => {
       console.log(err);
     });
 };
-  
+
+export const getCategories = () => {
+  return Axios
+    .get(`${API}/category`)
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      return error;
+      console.log(error);
+    });
+};

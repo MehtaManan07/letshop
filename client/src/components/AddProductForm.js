@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 
 const AddProductForm = ({ values, onSubmitHandler, handleChange }) => {
-    return (
-        <form className="mb-3" onSubmit={onSubmitHandler}>
+  return (
+    <form className="mb-3" onSubmit={onSubmitHandler}>
       <h4>Post Image</h4>
       <div className="form-group">
         <label className="btn btn-secondary">
@@ -11,6 +11,7 @@ const AddProductForm = ({ values, onSubmitHandler, handleChange }) => {
             type="file"
             name="picture"
             accept="image/*"
+            required
           />
         </label>
       </div>
@@ -47,14 +48,20 @@ const AddProductForm = ({ values, onSubmitHandler, handleChange }) => {
       <div className="form-group">
         <label className="text-muted">Category</label>
         <select onChange={handleChange("category")} className="form-control">
-          <option value="5cde522ad8b1ff1b89c36987">Python</option>
-          <option value="5cde522ad8b1ff1b89c36987">PHP</option>
+          <option>Select</option>
+          {values.categories &&
+            values.categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
         </select>
       </div>
 
       <div className="form-group">
         <label className="text-muted">Shipping</label>
         <select onChange={handleChange("shipping")} className="form-control">
+          <option>Select</option>
           <option value="0">No</option>
           <option value="1">Yes</option>
         </select>
@@ -69,10 +76,11 @@ const AddProductForm = ({ values, onSubmitHandler, handleChange }) => {
           value={values.quantity}
         />
       </div>
-
-      <button className="btn btn-outline-primary">Create Product</button>
+      <div className="d-flex justify-content-center">
+        <button className="btn btn-outline-success col-md-6">Create Product</button>
+      </div>
     </form>
-    )
-}
+  );
+};
 
-export default AddProductForm
+export default AddProductForm;

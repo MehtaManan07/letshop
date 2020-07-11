@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
-import { createProduct } from "../../functions/admin";
+import { createProduct, getCategories } from "../../functions/admin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import AddProductForm from "../../components/AddProductForm";
@@ -21,14 +21,34 @@ const AddProduct = () => {
     createdProduct: "",
     redirectToProfile: false,
     formData: "",
+    categoryCount: 0,
   });
 
   const {
     data: { user, token },
   } = isAuth();
 
+  const init = () => {
+    getCategories().then((response) => {
+      console.log(response);
+      if (response.error) {
+        setValues({ ...values, error: response.error });
+        toast.error(response.error);
+      } else {
+        console.log("response:", response);
+        response.data &&
+          setValues({
+            ...values,
+            categories: response.data,
+            categoryCount: response.data.length,
+            formData: new FormData(),
+          });
+      }
+    });
+  };
+
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
+    init();
   }, []);
 
   const handleChange = (name) => (event) => {
@@ -45,7 +65,9 @@ const AddProduct = () => {
     createProduct(user._id, token, values.formData).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
+        toast.error(data.error);
       } else {
+        toast.success(`Product created successfully`);
         setValues({
           ...values,
           name: "",
@@ -71,6 +93,7 @@ const AddProduct = () => {
           />
         </div>
       </div>
+      <ToastContainer />
     </Layout>
   );
 };
