@@ -6,10 +6,14 @@ import "react-toastify/dist/ReactToastify.min.css";
 import Checkbox from "../components/Checkbox";
 import { prices } from "../components/FixedPrices";
 import RadioBox from "../components/RadioBox";
+import { getFilteredProducts } from "../functions/core";
 
 const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
+  const [skip, setSkip] = useState(0)
+  const [limit, setLimit] = useState(6)
+  const [filteredResults, setFilteredResults] = useState([])
   const [myFilters, setMyFilters] = useState({
     filters: { category: [], price: [] },
   });
@@ -26,31 +30,47 @@ const Shop = () => {
     });
   };
 
+  const loadFilteredResults = (filter) => {
+    console.log(filter)
+    getFilteredProducts(skip, limit,filter)
+    .then((response => {
+      if(response.error) {
+        setError(response.error)
+      } else {
+        console.log(response)
+        setFilteredResults(response)
+      }
+    }))
+  }
+
+
   useEffect(() => {
     init();
+    loadFilteredResults(myFilters.filters)
   }, []);
 
   const handleFilters = (filters, filterBy) => {
-    const newFilters = { ...myFilters }
+    const newFilters = { ...myFilters };
     newFilters.filters[filterBy] = filters;
-    if(filterBy === 'price') {
-      let priceValues = handlePrice(filters)
+    if (filterBy === "price") {
+      let priceValues = handlePrice(filters);
       newFilters.filters[filterBy] = priceValues;
     }
-    setMyFilters(newFilters)
+    loadFilteredResults(myFilters.filters)
+    setMyFilters(newFilters);
   };
 
-  const handlePrice = value => {
+  const handlePrice = (value) => {
     let array = [];
-    for(let key in prices) {
-      if(prices[key]._id === parseInt(value)) {
-        console.log('values:',value)
-        array = prices[key].array
-        console.log(array)
+    for (let key in prices) {
+      if (prices[key]._id === parseInt(value)) {
+        console.log("values:", value);
+        array = prices[key].array;
+        console.log(array);
       }
     }
-    return array
-  }
+    return array;
+  };
 
   return (
     <Layout
