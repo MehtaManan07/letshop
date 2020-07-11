@@ -13,6 +13,7 @@ const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(false);
   const [skip, setSkip] = useState(0);
+  const [size, setSize] = useState(0);
   const [limit, setLimit] = useState(6);
   const [filteredResults, setFilteredResults] = useState([]);
   const [myFilters, setMyFilters] = useState({
@@ -25,7 +26,6 @@ const Shop = () => {
         setError(response.error);
         toast.error(response.error);
       } else {
-        console.log(response);
         setCategories(response.data);
       }
     });
@@ -41,6 +41,34 @@ const Shop = () => {
         setFilteredResults(response.data);
       }
     });
+  };
+
+  const loadMore = () => {
+    let toSkip = skip + limit;
+    getFilteredProducts(toSkip, limit, myFilters.filters).then((response) => {
+      if (response.error) {
+        setError(response.error);
+      } else {
+        console.log(response);
+        setFilteredResults([...filteredResults, ...response.data]);
+        setSize(response.size);
+        console.log(size);
+        setSkip(toSkip);
+      }
+    });
+  };
+
+  const loadMoreButton = () => {
+    return (
+      !size > 0 &&
+      size <= limit && (
+        <div className="d-flex justify-content-center">
+        <button onClick={loadMore} className="btn btn-outline-secondary mb-5">
+          Load more
+        </button>
+        </div>
+      )
+    );
   };
 
   useEffect(() => {
@@ -74,8 +102,8 @@ const Shop = () => {
   return (
     <Layout
       title="Shop Page"
-      description="Search and find the best books for you"
-      className="container-fluid mb-3"
+      description="Search and find books of your choice"
+      className="container-fluid"
     >
       <div className="row">
         <div className="col-4">
@@ -101,6 +129,8 @@ const Shop = () => {
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
+          <hr />
+          {loadMoreButton()}
         </div>
       </div>
     </Layout>
