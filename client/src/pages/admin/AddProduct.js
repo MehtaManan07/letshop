@@ -4,7 +4,7 @@ import { isAuth } from "../../functions/auth";
 import { createProduct, getCategories } from "../../functions/admin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import AddProductForm from "../../components/AddProductForm";
+import AddProductForm from "../../components/Product/AddProductForm";
 
 const AddProduct = () => {
   const [values, setValues] = useState({

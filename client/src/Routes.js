@@ -3,9 +3,9 @@ import { Switch, Route } from "react-router-dom";
 import Login from "./pages/user/Login";
 import Register from "./pages/user/Register";
 import Home from "./pages/Home";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./components/Routing/PrivateRoute";
 import UserDashboard from "./pages/user/UserDashboard";
-import AdminRoute from "./components/AdminRoute";
+import AdminRoute from "./components/Routing/AdminRoute";
 import AdminDashboard from './pages/admin/AdminDashBoard'
 import AddCategory from "./pages/admin/AddCategory";
 import AddProduct from "./pages/admin/AddProduct";

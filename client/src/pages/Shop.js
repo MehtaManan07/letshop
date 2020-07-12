@@ -3,10 +3,10 @@ import Layout from "../components/Layout";
 import { getCategories } from "../functions/admin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import Checkbox from "../components/Checkbox";
-import { prices } from "../components/FixedPrices";
-import RadioBox from "../components/RadioBox";
-import ProductCard from "../components/ProductCard";
+import Checkbox from "../components/Shop/Checkbox";
+import { prices } from "../components/Shop/FixedPrices";
+import RadioBox from "../components/Shop/RadioBox";
+import ProductCard from "../components/Product/ProductCard";
 import { getFilteredProducts } from "../functions/core";
 
 const Shop = () => {
@@ -105,6 +105,7 @@ const Shop = () => {
       description="Search and find books of your choice"
       className="container-fluid"
     >
+    <ToastContainer />
       <div className="row">
         <div className="col-4">
           <h5> Filter by categories </h5>
