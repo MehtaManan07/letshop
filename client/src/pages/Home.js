@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { getProducts } from "../functions/core";
 import ProductCard from "../components/Product/ProductCard";
-import Search from "../components/Search";
+
 
 const Home = () => {
   const [productsBySell, setProductsBySell] = useState([]);
@@ -11,7 +11,7 @@ const Home = () => {
   const [productCount, setProductCount] = useState(0);
 
   const loadProductsBySell = () => {
-    getProducts("sold").then((response) => {
+    getProducts("sold",3).then((response) => {
       if (response.error) {
         setError(response.error);
       } else {
@@ -22,7 +22,7 @@ const Home = () => {
   };
 
   const loadProductsByArrival = () => {
-    getProducts("createdAt").then((response) => {
+    getProducts("createdAt",3).then((response) => {
       if (response.error) {
         setError(response.error);
       } else {

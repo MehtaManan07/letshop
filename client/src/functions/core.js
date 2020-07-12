@@ -2,8 +2,8 @@ import Axios from "axios";
 import queryString from "query-string";
 const { API } = require("../config");
 
-export const getProducts = (sortBy) => {
-  return Axios.get(`${API}/product?sortBy=${sortBy}&order=desc&limit=6`)
+export const getProducts = (sortBy, limit) => {
+  return Axios.get(`${API}/product?sortBy=${sortBy}&order=desc&limit=${limit}`)
     .then((response) => {
       return response.data;
     })
