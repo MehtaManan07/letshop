@@ -3,7 +3,6 @@ import Layout from "../components/Layout";
 import { getProducts } from "../functions/core";
 import ProductCard from "../components/Product/ProductCard";
 
-
 const Home = () => {
   const [productsBySell, setProductsBySell] = useState([]);
   const [productsByArrival, setProductsByArrival] = useState([]);
@@ -11,7 +10,7 @@ const Home = () => {
   const [productCount, setProductCount] = useState(0);
 
   const loadProductsBySell = () => {
-    getProducts("sold",3).then((response) => {
+    getProducts("sold", 3).then((response) => {
       if (response.error) {
         setError(response.error);
       } else {
@@ -22,7 +21,7 @@ const Home = () => {
   };
 
   const loadProductsByArrival = () => {
-    getProducts("createdAt",3).then((response) => {
+    getProducts("createdAt", 3).then((response) => {
       if (response.error) {
         setError(response.error);
       } else {
@@ -43,17 +42,21 @@ const Home = () => {
       description="Ecommerce application"
       className="container-fluid"
     >
-    {/* <Search /> */}
+      {/* <Search /> */}
       <h2 className="mb-4"> Best Sellers </h2>
       <div className="row">
         {productsBySell.map((product) => (
-          <ProductCard product={product} key={product._id} />
+          <div key={product._id} className="col-4 mb-3">
+            <ProductCard product={product}  />
+          </div>
         ))}
       </div>
       <h2 className="mb-4"> Latest Arrivals </h2>
       <div className="row">
         {productsByArrival.map((product) => (
-          <ProductCard product={product} key={product._id} />
+          <div key={product._id} className="col-4 mb-3">
+            <ProductCard product={product}  />
+          </div>
         ))}
       </div>
     </Layout>

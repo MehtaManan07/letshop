@@ -46,3 +46,14 @@ export const listSearch = (params) => {
       return error;
     });
 };
+
+export const getSingleProduct = (productId) => {
+  return Axios.get(`${API}/product/${productId}`)
+  .then(response => {
+    console.log(response)
+    return response
+  }).catch(error => {
+    console.log(error)
+    return error
+  })
+}

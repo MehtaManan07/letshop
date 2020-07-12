@@ -63,9 +63,9 @@ const Shop = () => {
       !size > 0 &&
       size <= limit && (
         <div className="d-flex justify-content-center">
-        <button onClick={loadMore} className="btn btn-outline-secondary mb-5">
-          Load more
-        </button>
+          <button onClick={loadMore} className="btn btn-outline-secondary mb-5">
+            Load more
+          </button>
         </div>
       )
     );
@@ -105,7 +105,7 @@ const Shop = () => {
       description="Search and find books of your choice"
       className="container-fluid"
     >
-    <ToastContainer />
+      <ToastContainer />
       <div className="row">
         <div className="col-4">
           <h5> Filter by categories </h5>
@@ -127,7 +127,9 @@ const Shop = () => {
           <h2 className="mb-4"> Products </h2>
           <div className="row">
             {filteredResults.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <div key={product._id} className="col-4 mb-3">
+                <ProductCard product={product} />
+              </div>
             ))}
           </div>
           <hr />
