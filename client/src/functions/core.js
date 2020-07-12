@@ -1,9 +1,22 @@
 import Axios from "axios";
-
+import queryString from 'query-string'
 const { API } = require("../config");
 
 export const getProducts = (sortBy) => {
   return Axios.get(`${API}/product?sortBy=${sortBy}&order=desc&limit=6`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+};
+
+export const listSearch = (params) => {
+  const query = queryString.stringify()
+  console.log('query:',query)
+  return Axios.get(`${API}/product?${query}`)
     .then((response) => {
       return response.data;
     })
