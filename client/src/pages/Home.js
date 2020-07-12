@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { getProducts } from "../functions/core";
 import ProductCard from "../components/Product/ProductCard";
+import Search from "../components/Search";
 
 const Home = () => {
   const [productsBySell, setProductsBySell] = useState([]);
@@ -11,7 +12,6 @@ const Home = () => {
 
   const loadProductsBySell = () => {
     getProducts("sold").then((response) => {
-
       if (response.error) {
         setError(response.error);
       } else {
@@ -23,7 +23,6 @@ const Home = () => {
 
   const loadProductsByArrival = () => {
     getProducts("createdAt").then((response) => {
-
       if (response.error) {
         setError(response.error);
       } else {
@@ -39,7 +38,12 @@ const Home = () => {
   }, []);
 
   return (
-    <Layout title="Home page" description="Ecommerce application" className="container-fluid">
+    <Layout
+      title="Home page"
+      description="Ecommerce application"
+      className="container-fluid"
+    >
+    <Search />
       <h2 className="mb-4"> Best Sellers </h2>
       <div className="row">
         {productsBySell.map((product) => (
