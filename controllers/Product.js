@@ -5,15 +5,19 @@ const Product = require("../models/product");
 // const { errorHandler } = require("../helpers/dbErrorHandler");
 
 exports.productById = (req, res, next, id) => {
-  Product.findById(id).exec((error, product) => {
-    if (error || !product) {
-      return res.json({ error: `product not found` });
-    }
-    req.product = product;
-    next();
-  });
+  Product.findById(id)
+    // .populate("category")
+    .exec((err, product) => {
+      if (err || !product) {
+        console.log("PRODUCT NOT FOUND", err);
+        return res.status(400).json({
+          error: "Product not found",
+        });
+      }
+      req.product = product;
+      next();
+    });
 };
-
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
@@ -23,27 +27,20 @@ exports.create = (req, res) => {
         error: "Image cannot not be uploaded",
       });
     }
-    const {
-      name,
-      description,
-      price,
-      category,
-      quantity,
-      shipping
-  } = fields;
+    const { name, description, price, category, quantity, shipping } = fields;
 
-  if (
+    if (
       !name ||
       !description ||
       !price ||
       !category ||
       !quantity ||
       !shipping
-  ) {
+    ) {
       return res.status(400).json({
-          error: "All fields are required"
+        error: "All fields are required",
       });
-  }
+    }
 
     let product = new Product(fields);
 
@@ -59,7 +56,7 @@ exports.create = (req, res) => {
 
     product.save((error, result) => {
       if (error) {
-        console.log(error)
+        console.log(error);
         return res.status(400).json({
           error,
         });
@@ -226,10 +223,35 @@ exports.listProductsBySearch = (req, res) => {
     });
 };
 
-exports.getpicture = (req,res,next) => {
-  if(req.product.picture.data) {
-    res.set('Content-Type', req.product.picture.contentType)
-    return res.send(req.product.picture.data)
+exports.getpicture = (req, res, next) => {
+  if (req.product.picture.data) {
+    res.set("Content-Type", req.product.picture.contentType);
+    return res.send(req.product.picture.data);
   }
-  next()
-}
+  next();
+};
+
+exports.listSearches = (req, res) => {
+  // create query object to hold search value and category value
+  const query = {};
+  // assign search value to query.name
+  if (req.query.search) {
+    query.name = { $regex: req.query.search, $options: "i" };
+    // assigne category value to query.category
+    if (req.query.category && req.query.category != "All") {
+      query.category = req.query.category;
+    }
+    // find the product based on query object with 2 properties
+    // search and category
+    Product.find(query, (err, products) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({
+          err: ` error: errorHandler(err)`,
+        });
+      }
+      res.json(products);
+    }).select("-photo");
+  }
+  console.log('query:',query)
+};

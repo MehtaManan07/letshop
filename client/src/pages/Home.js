@@ -43,7 +43,7 @@ const Home = () => {
       description="Ecommerce application"
       className="container-fluid"
     >
-    <Search />
+    {/* <Search /> */}
       <h2 className="mb-4"> Best Sellers </h2>
       <div className="row">
         {productsBySell.map((product) => (

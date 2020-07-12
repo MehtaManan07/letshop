@@ -31,7 +31,7 @@ const Search = () => {
       }).then((response) => {
         console.log("response:", response);
         if (response.error) {
-          console.log(response.error);
+          console.log(response.error.response);
         } else {
           setData({ ...data, results: response.data, searched: true });
         }
@@ -57,7 +57,7 @@ const Search = () => {
               className="btn mr-2 btn-outline-secondary"
               onChange={onChangeHandler("category")}
             >
-              <option value="all">Select category</option>
+              <option value="All">Select category</option>
               {data.categories.map((category) => (
                 <option value={category._id} key={category._id}>
                   {category.name}

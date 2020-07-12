@@ -12,10 +12,12 @@ const {
   getCategories,
   listProductsBySearch,
   getpicture,
+  listSearches,
 } = require("../controllers/Product");
 const { requireLogin, isAdmin, isAuth } = require("../controllers/Auth");
 const { userById } = require("../controllers/User");
 
+router.post("/search", listSearches);
 router.get("/:productId", getProductById);
 router.post("/create/:userId", requireLogin, isAuth, isAdmin, create);
 router.delete(

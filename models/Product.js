@@ -15,10 +15,6 @@ const productSchema = new mongoose.Schema(
       required: true,
       maxlength: 3000,
     },
-    sold: {
-      type: Number,
-      default: 0,
-    },
     price: {
       type: Number,
       trim: true,
@@ -32,6 +28,10 @@ const productSchema = new mongoose.Schema(
     },
     quantity: {
       type: Number,
+    },
+    sold: {
+      type: Number,
+      default: 0,
     },
     picture: {
       data: Buffer,
