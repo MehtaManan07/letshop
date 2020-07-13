@@ -45,6 +45,8 @@ const SingleProduct = (props) => {
             <ProductCard product={product} showVViewButton={false} />
           )}
         </div>
+        {
+          relatedProducts.data && relatedProducts.data.length > 0 &&
         <div className="col-4">
           <h4> Related Products </h4>
           { relatedProducts.data && relatedProducts.data.map((relatedProduct,index) => (
@@ -53,6 +55,7 @@ const SingleProduct = (props) => {
             </div>
           ))}
         </div>
+        }
       </div>
     </Layout>
   );

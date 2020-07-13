@@ -13,7 +13,7 @@ const isActive = (history, path) => {
 
 const Navbar = (props) => {
   const guestLinks = (
-    <div className="ml-auto navbar-nav">
+    <>
       <Link
         className="nav-item nav-link"
         style={isActive(props.history, "/login")}
@@ -28,24 +28,10 @@ const Navbar = (props) => {
       >
         Register
       </Link>
-      <Link
-        className="nav-item nav-link"
-        style={isActive(props.history, "/shop")}
-        to="/shop"
-      >
-        Shop
-      </Link>
-    </div>
+    </>
   );
   const authLinks = (
-    <div className="ml-auto navbar-nav">
-      <Link
-        className="nav-item nav-link"
-        style={isActive(props.history, "/shop")}
-        to="/shop"
-      >
-        Shop
-      </Link>
+    <>
       <Link
         className="nav-item nav-link"
         style={isActive(props.history, "/userDashboard")}
@@ -60,11 +46,11 @@ const Navbar = (props) => {
       >
         Logout
       </li>
-    </div>
+    </>
   );
 
   const adminLinks = (
-    <div className="ml-auto navbar-nav">
+    <>
       <Link
         className="nav-item nav-link"
         style={isActive(props.history, "/adminDashboard")}
@@ -79,7 +65,7 @@ const Navbar = (props) => {
       >
         Logout
       </li>
-    </div>
+    </>
   );
 
   return (
@@ -103,11 +89,20 @@ const Navbar = (props) => {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-        {isAuth()
-          ? isAuth().data.user.role === 1
-            ? adminLinks
-            : authLinks
-          : guestLinks}
+        <div className="ml-auto navbar-nav">
+          <Link
+            className="nav-item nav-link"
+            style={isActive(props.history, "/shop")}
+            to="/shop"
+          >
+            Shop
+          </Link>
+          {isAuth()
+            ? isAuth().data.user.role === 1
+              ? adminLinks
+              : authLinks
+            : guestLinks}
+        </div>
       </div>
     </nav>
   );
