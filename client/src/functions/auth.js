@@ -39,6 +39,7 @@ export const register = (user) => {
   export const logout = (next) => {
     if(typeof window !== 'undefined') {
       localStorage.removeItem('jwt');
+      localStorage.removeItem('cart');
       next()
       return axios.get(`${API}/auth/logout`)
       .then(response => console.log('logout', response))

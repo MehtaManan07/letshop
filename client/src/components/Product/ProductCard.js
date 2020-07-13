@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import ProductCardImage from "./ProductCardImage";
 import moment from 'moment'
-import { addItem } from "../../functions/cart";
+import { addCartItem } from "../../functions/cart";
 
 
 const ProductCard = ({ product, showVViewButton = true }) => {
@@ -18,7 +18,7 @@ const ProductCard = ({ product, showVViewButton = true }) => {
   };
 
   const addToCart = () => {
-    addItem(product, () => {
+    addCartItem(product, () => {
       setRedirect(true)
     })
   }
@@ -30,7 +30,7 @@ const ProductCard = ({ product, showVViewButton = true }) => {
       {/* {redirect && <Redirect to="/cart" /> } */}
         <ProductCardImage product={product} url="product" />
         <p className="lead mt-2">
-          {product.description.split(" ").slice(0, 10).join(" ")}
+          {product.description.split(" ").slice(0, 7).join(" ")}
         </p>
         <p className="black-10"> $ {product.price} </p>
         <p className="black-9">

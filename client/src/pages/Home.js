@@ -40,7 +40,7 @@ const Home = () => {
     <Layout
       title="Home page"
       description="Ecommerce application"
-      className="container-fluid"
+      className="container"
     >
       {/* <Search /> */}
       <h4 className="mb-4"> Best Sellers </h4>
