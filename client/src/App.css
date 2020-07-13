@@ -1,7 +1,9 @@
 /**
  * single product page - product name
  */
-
+body {
+  background-color: #eee;
+}
 .name {
   background: indigo;
   color: #fff;

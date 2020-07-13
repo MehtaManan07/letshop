@@ -97,7 +97,7 @@ const Navbar = (props) => {
           >
             Shop
           </Link>
-          <Link
+         {!isAuth().role === 1 && <Link
             className="nav-item nav-link"
             style={isActive(props.history, "/cart")}
             to="/cart"
@@ -106,7 +106,7 @@ const Navbar = (props) => {
             <sup>
               { cartItemsCount() > 0 && <small className="cart-badge"> {cartItemsCount()} </small>}
             </sup>
-          </Link>
+          </Link>}
           {isAuth()
             ? isAuth().data.user.role === 1
               ? adminLinks

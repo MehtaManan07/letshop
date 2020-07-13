@@ -6,6 +6,7 @@ import { login, authenticate } from "../../functions/auth";
 import Loader from "../../components/Loader";
 import { Redirect } from "react-router-dom";
 import { isAuth } from "../../functions/auth";
+import LoginForm from "../../components/Auth/LoginForm";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -42,38 +43,6 @@ const Login = () => {
   const onChangeHandler = (name) => (event) => {
     setValues({ ...values, error: false, [name]: event.target.value });
   };
-  const registrationForm = () => (
-    <form onSubmit={onSubmitHandler}>
-      <div className="form-group">
-        <label className="text-muted"> Email </label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          className="form-control"
-          onChange={onChangeHandler("email")}
-          value={email}
-        />
-      </div>
-      <div className="form-group">
-        <label className="text-muted"> Password </label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          className="form-control"
-          onChange={onChangeHandler("password")}
-          value={password}
-        />
-      </div>
-      <div className="d-flex justify-content-center">
-        <button
-          className="btn col-4 btn-outline-dark"
-          onClick={onSubmitHandler}
-        >
-          SUBMIT
-        </button>
-      </div>
-    </form>
-  );
 
   const redirectUser = () => {
     if (redirectToRef) {
@@ -92,7 +61,7 @@ const Login = () => {
       description="Login yourself to start purchasing..."
     >
       {loading && <Loader />}
-      {registrationForm()}
+      <LoginForm values={values} onSubmitHandler={onSubmitHandler} onChangeHandler={onChangeHandler} />
       {redirectUser()}
       <ToastContainer />
     </Layout>
