@@ -57,3 +57,15 @@ export const getSingleProduct = (productId) => {
     return error
   })
 }
+
+export const getRelatedProducts = (productId, limit) => {
+  return Axios.get(`${API}/product/related/${productId}?limit=2`)
+  .then(response => {
+    console.log('response from core:',response)
+    return response
+  }).catch(error => {
+    console.log(error)
+    return error
+  })
+}
+

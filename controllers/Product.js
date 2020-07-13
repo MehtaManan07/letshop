@@ -151,6 +151,7 @@ exports.getAllProducts = (req, res) => {
 
 exports.getRelatedProducts = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+  console.log(limit)
   Product.find({ _id: { $ne: req.product }, category: req.product.category })
     .limit(limit)
     .populate("category", "_id name")
