@@ -12,6 +12,7 @@ import AddProduct from "./pages/admin/AddProduct";
 import Shop from "./pages/Shop";
 import SingleProduct from "./pages/SingleProduct";
 import CartPage from "./pages/cart/CartPage";
+import CheckoutPage from "./pages/checkout/CheckoutPage";
 
 
 const Routes = () => {
@@ -21,6 +22,7 @@ const Routes = () => {
         <Route path="/" exact component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/cart" component={CartPage} />
+        <Route path="/checkout" component={CheckoutPage} />
         <Route path="/shop" component={Shop} />
         <Route path="/product/:productId" component={SingleProduct} />
         <Route path="/register" component={Register} />

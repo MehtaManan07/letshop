@@ -42,6 +42,7 @@ const ProductCard = ({ product, showVViewButton = true }) => {
         </p>
         {showStock(product.quantity)}
         <br/>
+        <div className="row">
         <Link to={`/product/${product._id}`}>
           <button
             style={{ display: showVViewButton ? "" : "none" }}
@@ -53,6 +54,7 @@ const ProductCard = ({ product, showVViewButton = true }) => {
         <button onClick={addToCart} className="btn btn-outline-warning mt-2 ml-2 mb-2">
           Add to Cart
         </button>
+        </div>
       </div>
     </div>
   );

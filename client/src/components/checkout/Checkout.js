@@ -6,7 +6,7 @@ import DropIn from "braintree-web-drop-in-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { emptyCart } from "../../functions/cart";
-
+import { createOrder } from "../../functions/order";
 
 const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   const [data, setData] = useState({
@@ -14,7 +14,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     clientToken: "",
     error: "",
     instance: {},
-    address: {},
+    address: '',
   });
 
   const userId = isAuth() && isAuth().data.user._id;
@@ -31,7 +31,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   };
 
   useEffect(() => {
-    console.log(products.length)
+    console.log(products.length);
     getToken(userId, token);
   }, []);
 
@@ -67,11 +67,19 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
         processPaymentt(userId, token, paymentData)
           .then((response) => {
             console.log(response);
+
+            const orderData = {
+              products,
+              transaction_id: response.transaction.id,
+              amount: response.transaction.amount
+            };
+
+            createOrder(userId, token, orderData);
             setData({ ...data, success: response.success });
             emptyCart(() => {
-              setRun(!run)
-              toast.success(`Payment of $${calculatedTotal()} was successful`)
-            })
+              setRun(!run);
+              toast.success(`Payment of $${calculatedTotal()} was successful`);
+            });
           })
           .catch((error) => {
             console.log(error);
@@ -89,6 +97,10 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
       <div className="">
         {data.clientToken !== "" && products.length > 0 ? (
           <div className="">
+          <div className="form-group">
+            <label className="text-muted">Delivery Address:</label>
+            <textarea></textarea>
+          </div>
             <DropIn
               options={{ authorization: data.clientToken }}
               onInstance={(instance) => (data.instance = instance)}

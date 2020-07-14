@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getCart, removeCartItem } from "../../functions/cart";
+import { getCart } from "../../functions/cart";
 import Layout from "../../components/Layout";
-import "./CartPage.scss";
-import CheckoutItem from "../../components/Cart/CheckoutItem";
-import Checkout from "../../components/checkout/Checkout";
+import "./CartPage.css";
+import CartItem from "../../components/Cart/CartItem";
+import CartSummary from "../../components/Cart/CartSummary";
 
 const CartPage = () => {
   const [items, setItems] = useState([]);
@@ -11,50 +11,63 @@ const CartPage = () => {
 
   useEffect(() => {
     setItems(getCart());
-    console.log(getCart());
   }, [run]);
+
+  const calculatedsubTotal = items.reduce((currentValue, nextValue) => {
+    return currentValue + nextValue.count * nextValue.price;
+  }, 0);
+
+  const shippingAmount =
+    items.length !== 0 ? (calculatedsubTotal > 150 ? 0 : 20) : 0;
+
+  const finalTotal = calculatedsubTotal + shippingAmount;
+
   return (
-    <Layout title="Shopping Cart" className="container mb-5">
-      <div className="row">
-        <div className="checkout-page col-md-6">
-          <div className="checkout-header">
-            <div className="header-block">
-              <span> Product </span>
-            </div>
-            <div className="header-block">
-              <span> Description </span>
-            </div>
-            <div className="header-block">
-              <span> Quantity </span>
-            </div>
-            <div className="header-block">
-              <span> Price </span>
-            </div>
-            <div className="header-block">
-              <span> Remove </span>
+    <Layout title="Shopping Cart">
+      <section className="shopping-cart dark">
+        <div className="container">
+          <div className="content">
+            <div className="row">
+              <div className="col-md-12 col-lg-8">
+                {items.length > 0 ? (
+                  <div className="items">
+                    {items.map((product, index) => {
+                      return (
+                        <CartItem
+                          key={index}
+                          setRun={setRun}
+                          run={run}
+                          cartUpdate
+                          product={product}
+                        />
+                      );
+                    })}
+                  </div>
+                ) : (
+                  "oops"
+                )}
+              </div>
+              <div className="col-md-12 col-lg-4">
+                <CartSummary
+                  items={items}
+                  calculatedsubTotal={calculatedsubTotal}
+                  finalTotal={finalTotal}
+                  shippingAmount={shippingAmount}
+                />
+              </div>
             </div>
           </div>
-          {items.length > 0 &&
-            items.map((product, index) => {
-              return (
-                <CheckoutItem
-                  key={index}
-                  setRun={setRun}
-                  run={run}
-                  cartUpdate
-                  product={product}
-                />
-              );
-            })}
         </div>
-        <div className="col-6">
-          <h2 className="mb-4">Your cart summary</h2>
-          <hr />
-          <Checkout products={items} setRun={setRun} run={run} />
-        </div>
-      </div>
+      </section>
     </Layout>
   );
 };
 
 export default CartPage;
+{
+  /* <div className="col-6">
+          <h2 className="mb-4">Your cart summary</h2>
+          <hr />
+          <Checkout products={items} setRun={setRun} run={run} />
+        </div> */
+}
