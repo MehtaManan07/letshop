@@ -38,12 +38,27 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
 
   const showChechout = () => {
     return isAuth() ? (
-        <div> {showDropIn()} </div>
+      <div> {showDropIn()} </div>
     ) : (
       <Link to="/login">
         <button className="btn btn-primary">Login to checkout</button>
       </Link>
     );
+  };
+
+  const purchase = () => {
+    let nonce;
+    let getnonce = data.instance
+      .requestPaymentMethod()
+      .then((response) => {
+        console.log(response);
+        nonce = response.nonce;
+        console.log("Send nonce and total", nonce, calculatedTotal(products));
+      })
+      .catch((error) => {
+        console.log("token error:", error);
+        setData({ ...data, error: error.message });
+      });
   };
 
   const showDropIn = () => {
@@ -55,7 +70,9 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
               options={{ authorization: data.clientToken }}
               onInstance={(instance) => (data.instance = instance)}
             />
-            <button className="btn btn-success"> Checkout </button>
+            <button onClick={purchase} className="btn col-md-12 btn-success">
+              Pay
+            </button>
           </div>
         ) : (
           ""
