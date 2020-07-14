@@ -41,7 +41,7 @@ const RegistrationForm = ({ values, onSubmitHandler, onChangeHandler }) => {
             </div>
             <input
               type="email"
-              placeholder="Enter your name"
+              placeholder="Enter your email"
               onChange={onChangeHandler("email")}
               className="form-control"
               value={email}
