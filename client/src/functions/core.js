@@ -49,23 +49,39 @@ export const listSearch = (params) => {
 
 export const getSingleProduct = (productId) => {
   return Axios.get(`${API}/product/${productId}`)
-  .then(response => {
-    console.log(response)
-    return response
-  }).catch(error => {
-    console.log(error)
-    return error
-  })
-}
+    .then((response) => {
+      console.log(response);
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+};
 
 export const getRelatedProducts = (productId, limit) => {
   return Axios.get(`${API}/product/related/${productId}?limit=2`)
-  .then(response => {
-    console.log('response from core:',response)
-    return response
+    .then((response) => {
+      console.log("response from core:", response);
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+};
+
+export const getBraintreeClientToken = (userId, token) => {
+  return Axios.get(`${API}/payment/braintree/getToken/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "Application/json",
+    },
+  }).then((response) => {
+    console.log(response);
+    return response.data
   }).catch(error => {
     console.log(error)
     return error
   })
-}
-
+};
