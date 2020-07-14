@@ -5,6 +5,7 @@ import { getBraintreeClientToken, processPaymentt } from "../../functions/core";
 import DropIn from "braintree-web-drop-in-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { emptyCart } from "../../functions/cart";
 
 
 const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
@@ -30,6 +31,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   };
 
   useEffect(() => {
+    console.log(products.length)
     getToken(userId, token);
   }, []);
 
@@ -66,7 +68,10 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
           .then((response) => {
             console.log(response);
             setData({ ...data, success: response.success });
-            toast.success(`Payment of $${calculatedTotal()} was successful`)
+            emptyCart(() => {
+              setRun(!run)
+              toast.success(`Payment of $${calculatedTotal()} was successful`)
+            })
           })
           .catch((error) => {
             console.log(error);
