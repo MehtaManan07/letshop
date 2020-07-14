@@ -27,6 +27,7 @@ app.use("/api/auth", require("./routes/Auth"));
 app.use("/api/user", require("./routes/User"));
 app.use("/api/category", require("./routes/Category"));
 app.use("/api/product", require("./routes/Product"));
+app.use('/api/payment', require('./routes/braintree'))
 
 const port = process.env.PORT || 5000;
 
