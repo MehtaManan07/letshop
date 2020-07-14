@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { isAuth } from "../../functions/auth";
 import { Link } from "react-router-dom";
-import { getBraintreeClientToken } from "../../functions/core";
+import { getBraintreeClientToken, processPaymentt } from "../../functions/core";
 import DropIn from "braintree-web-drop-in-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+
 
 const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
   const [data, setData] = useState({
@@ -53,7 +56,22 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
       .then((response) => {
         console.log(response);
         nonce = response.nonce;
-        console.log("Send nonce and total", nonce, calculatedTotal(products));
+        // console.log("Send nonce and total", nonce, calculatedTotal(products));
+        const paymentData = {
+          paymentMethodNonce: nonce,
+          amount: calculatedTotal(products),
+        };
+
+        processPaymentt(userId, token, paymentData)
+          .then((response) => {
+            console.log(response);
+            setData({ ...data, success: response.success });
+            toast.success(`Payment of $${calculatedTotal()} was successful`)
+          })
+          .catch((error) => {
+            console.log(error);
+            setData({ ...data, error: error.message });
+          });
       })
       .catch((error) => {
         console.log("token error:", error);
@@ -70,7 +88,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
               options={{ authorization: data.clientToken }}
               onInstance={(instance) => (data.instance = instance)}
             />
-            <button onClick={purchase} className="btn col-md-12 btn-success">
+            <button onClick={purchase} className="btn btn-block btn-success">
               Pay
             </button>
           </div>
@@ -85,6 +103,7 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     <div>
       <h2> Total: ${calculatedTotal()} </h2>
       {showChechout()}
+      <ToastContainer />
     </div>
   );
 };

@@ -11,7 +11,7 @@ import AddCategory from "./pages/admin/AddCategory";
 import AddProduct from "./pages/admin/AddProduct";
 import Shop from "./pages/Shop";
 import SingleProduct from "./pages/SingleProduct";
-import CartComponent from "./pages/cart/CartComponent";
+import CartPage from "./pages/cart/CartPage";
 
 
 const Routes = () => {
@@ -20,7 +20,7 @@ const Routes = () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/login" component={Login} />
-        <Route path="/cart" component={CartComponent} />
+        <Route path="/cart" component={CartPage} />
         <Route path="/shop" component={Shop} />
         <Route path="/product/:productId" component={SingleProduct} />
         <Route path="/register" component={Register} />

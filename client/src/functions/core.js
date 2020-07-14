@@ -85,3 +85,18 @@ export const getBraintreeClientToken = (userId, token) => {
     return error
   })
 };
+
+export const processPaymentt = (userId, token, paymentData) => {
+  return Axios.post(`${API}/payment/braintree/payment/${userId}`, paymentData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "Application/json",
+    },
+  }).then((response) => {
+    console.log(response);
+    return response.data
+  }).catch(error => {
+    console.log(error)
+    return error
+  })
+};

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getCart, removeCartItem } from "../../functions/cart";
 import Layout from "../../components/Layout";
-import "./CartComponent.scss";
+import "./CartPage.scss";
 import CheckoutItem from "../../components/Cart/CheckoutItem";
 import Checkout from "../../components/checkout/Checkout";
 
-const CartComponent = () => {
+const CartPage = () => {
   const [items, setItems] = useState([]);
   const [run, setRun] = useState(false);
 
@@ -57,4 +57,4 @@ const CartComponent = () => {
   );
 };
 
-export default CartComponent;
+export default CartPage;
