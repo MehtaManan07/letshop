@@ -56,7 +56,7 @@ const CheckoutPage = () => {
   };
 
   const purchase = () => {
-    const stateAddress = Object.values(address).join(", ");
+    const billingAddress = Object.values(address).join(", ");
     let nonce;
     let getnonce = data.instance
       .requestPaymentMethod()
@@ -77,7 +77,7 @@ const CheckoutPage = () => {
               products: items,
               transaction_id: response.transaction.id,
               amount: response.transaction.amount,
-              address: stateAddress
+              address: billingAddress
             };
             createOrder(userId, token, orderData)
             .then(respons => {
