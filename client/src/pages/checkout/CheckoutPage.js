@@ -30,8 +30,6 @@ const CheckoutPage = () => {
 
   const [show, setShow] = useState(false);
 
-  let stateAddress;
-
   const handleClose = () => setShow(false);
   const addressSubmitHandler = (event) => {
     event.preventDefault();
@@ -40,8 +38,7 @@ const CheckoutPage = () => {
       console.log("address");
     } else {
       setShow(true);
-      stateAddress = Object.values(address).join(", ");
-      console.log(stateAddress);
+      setAddress(address)
     }
   };
 
@@ -59,6 +56,7 @@ const CheckoutPage = () => {
   };
 
   const purchase = () => {
+    const stateAddress = Object.values(address).join(", ");
     let nonce;
     let getnonce = data.instance
       .requestPaymentMethod()
@@ -76,12 +74,12 @@ const CheckoutPage = () => {
             console.log(response);
             handleClose();
             const orderData = {
-              items,
+              products: items,
               transaction_id: response.transaction.id,
               amount: response.transaction.amount,
               address: stateAddress
             };
-
+            console.log(stateAddress)
             createOrder(userId, token, orderData);
           })
           .catch((error) => {
