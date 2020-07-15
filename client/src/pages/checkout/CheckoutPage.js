@@ -79,8 +79,19 @@ const CheckoutPage = () => {
               amount: response.transaction.amount,
               address: stateAddress
             };
-            console.log(stateAddress)
-            createOrder(userId, token, orderData);
+            createOrder(userId, token, orderData)
+            .then(respons => {
+              emptyCart(() => {
+                setAddress({
+                  main: "",
+                  optional: "",
+                  country: "",
+                  state: "",
+                  zip: 0,
+                });
+                setRun(!run);
+              });
+            })
           })
           .catch((error) => {
             console.log(error);
@@ -169,14 +180,4 @@ export default CheckoutPage;
 // emptyCart(() => {
 //   setRun(!run);
 //   toast.success(`Payment of $${calculatedTotal()} was successful`);
-// });
-// emptyCart(() => {
-//   setAddress({
-//     main: "",
-//     optional: "",
-//     country: "",
-//     state: "",
-//     zip: 0,
-//   });
-//   setRun(!run);
 // });
