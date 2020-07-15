@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from 'react'
 
 const CheckoutSummary = ({ items, shippingCharges, totalPrice, run=undefined, setRun = f => f }) => {
 
@@ -15,7 +15,7 @@ const CheckoutSummary = ({ items, shippingCharges, totalPrice, run=undefined, se
     ))}
       <li className="list-group-item d-flex justify-content-between bg-light">
         <div className="text-success">
-          <h6 className="my-0">Shipping Charges</h6>
+          <h6 className="my-0">Shipping</h6>
         </div>
         <span className="text-success"> ${shippingCharges}</span>
       </li>

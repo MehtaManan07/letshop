@@ -9,6 +9,7 @@ import { getBraintreeClientToken, processPaymentt } from "../../functions/core";
 import PaymentModal from "../../components/checkout/PaymentModal";
 import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
+import { createOrder } from "../../functions/order";
 
 const CheckoutPage = () => {
   const [items, setItems] = useState([]);
@@ -29,15 +30,17 @@ const CheckoutPage = () => {
 
   const [show, setShow] = useState(false);
 
+  let stateAddress;
+
   const handleClose = () => setShow(false);
   const addressSubmitHandler = (event) => {
     event.preventDefault();
     if (address.main === "" || address.state === "" || address.country === "") {
       toast.error(`All fields are required`);
-      console.log('address');
+      console.log("address");
     } else {
       setShow(true);
-      const stateAddress = Object.values(address).join(", ");
+      stateAddress = Object.values(address).join(", ");
       console.log(stateAddress);
     }
   };
@@ -72,17 +75,14 @@ const CheckoutPage = () => {
           .then((response) => {
             console.log(response);
             handleClose();
-            alert("hoorah");
-            emptyCart(() => {
-              setAddress({
-                main: "",
-                optional: "",
-                country: "",
-                state: "",
-                zip: 0,
-              });
-              setRun(!run);
-            });
+            const orderData = {
+              items,
+              transaction_id: response.transaction.id,
+              amount: response.transaction.amount,
+              address: stateAddress
+            };
+
+            createOrder(userId, token, orderData);
           })
           .catch((error) => {
             console.log(error);
@@ -166,15 +166,19 @@ const CheckoutPage = () => {
 
 export default CheckoutPage;
 
-// const orderData = {
-//   products,
-//   transaction_id: response.transaction.id,
-//   amount: response.transaction.amount,
-// };
-
 // createOrder(userId, token, orderData);
 // setData({ ...data, success: response.success });
 // emptyCart(() => {
 //   setRun(!run);
 //   toast.success(`Payment of $${calculatedTotal()} was successful`);
+// });
+// emptyCart(() => {
+//   setAddress({
+//     main: "",
+//     optional: "",
+//     country: "",
+//     state: "",
+//     zip: 0,
+//   });
+//   setRun(!run);
 // });

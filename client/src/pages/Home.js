@@ -6,7 +6,9 @@ import ProductCard from "../components/Product/ProductCard";
 const Home = () => {
   const [productsBySell, setProductsBySell] = useState([]);
   const [productsByArrival, setProductsByArrival] = useState([]);
+  // eslint-disable-next-line
   const [error, setError] = useState(false);
+  // eslint-disable-next-line
   const [productCount, setProductCount] = useState(0);
 
   const loadProductsBySell = () => {
