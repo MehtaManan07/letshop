@@ -2,6 +2,7 @@ const formidable = require("formidable");
 const _ = require("lodash");
 const fs = require("fs");
 const Product = require("../models/product");
+const { updateOne } = require("../models/product");
 // const { errorHandler } = require("../helpers/dbErrorHandler");
 
 exports.productById = (req, res, next, id) => {
@@ -151,7 +152,7 @@ exports.getAllProducts = (req, res) => {
 
 exports.getRelatedProducts = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
-  console.log(limit)
+  console.log(limit);
   Product.find({ _id: { $ne: req.product }, category: req.product.category })
     .limit(limit)
     .populate("category", "_id name")
@@ -254,5 +255,23 @@ exports.listSearches = (req, res) => {
       res.json(products);
     }).select("-photo");
   }
-  console.log('query:',query)
+  console.log("query:", query);
+};
+
+exports.updateQuantity = (req, res, next) => {
+  let bulkOps = req.body.order.products.map((item) => {
+    return {
+      updateOne: {
+        filter: { _id: item._id },
+        update: { $inc: { quantity: -item.count, sold: +item.count } },
+      },
+    };
+  });
+
+  Product.bulkWrite(bulkOps, {}, (error, products) => {
+    if (error) {
+      return res.json({ error: `Could not update product` });
+    }
+    next();
+  });
 };
