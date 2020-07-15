@@ -1,30 +1,117 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import CheckoutSummary from "../../components/checkout/CheckoutSummary";
-import { getCart } from "../../functions/cart";
+import { getCart, emptyCart } from "../../functions/cart";
 import { Link } from "react-router-dom";
+import AddressForm from "../../components/checkout/AddressForm";
+import { isAuth } from "../../functions/auth";
+import { getBraintreeClientToken, processPaymentt } from "../../functions/core";
+import PaymentModal from "../../components/checkout/PaymentModal";
+import "react-toastify/dist/ReactToastify.min.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const CheckoutPage = () => {
   const [items, setItems] = useState([]);
   const [run, setRun] = useState(false);
+  const [data, setData] = useState({
+    success: false,
+    clientToken: "",
+    error: "",
+    instance: {},
+  });
+  const [address, setAddress] = useState({
+    main: "",
+    optional: "",
+    country: "",
+    state: "",
+    zip: 0,
+  })
+
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const userId = isAuth() && isAuth().data.user._id;
+  const token = isAuth() && isAuth().data.token;
+
+  const getToken = (userId, token) => {
+    getBraintreeClientToken(userId, token).then((response) => {
+      if (response.error) {
+        setData({ ...data, error: response.error });
+      } else {
+        setData({ ...data, success: true, clientToken: response.clientToken });
+      }
+    });
+  };
+
+  const purchase = () => {
+    let nonce;
+    let getnonce = data.instance
+      .requestPaymentMethod()
+      .then((response) => {
+        console.log(response);
+        nonce = response.nonce;
+        // console.log("Send nonce and total", nonce, calculatedTotal(products));
+        const paymentData = {
+          paymentMethodNonce: nonce,
+          amount: totalPrice,
+        };
+
+        processPaymentt(userId, token, paymentData)
+          .then((response) => {
+            console.log(response);
+            handleClose();
+            alert("hoorah");
+            emptyCart(() => {
+              setRun(!run);
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            setData({ ...data, error: error.message });
+          });
+      })
+      .catch((error) => {
+        console.log("token error:", error);
+        setData({ ...data, error: error.message });
+      });
+  };
+
+  const onChangeHandler = (name) => (event) => {
+    setAddress({ ...address, [name]:event.target.value})
+  };
+
+  const addressSubmitHandler = (event) => {
+    event.preventDefault();
+    Object.values(address).map(value => {
+      console.log(value)
+    })
+    setData({ ...data,  address: address })
+    const stateAddress = Object.values(address).join(",");
+    console.log(stateAddress,address)
+  };
 
   useEffect(() => {
     setItems(getCart());
-    console.log(getCart());
-  }, []);
+    getToken(userId, token);
+  }, [run]);
 
   const calculatedsubTotal = items.reduce((currentValue, nextValue) => {
     return currentValue + nextValue.count * nextValue.price;
   }, 0);
 
   const shippingAmount = calculatedsubTotal > 150 ? `Free` : 20;
-  let totalPrice
-  shippingAmount === "Free"
-    ? (totalPrice = calculatedsubTotal)
-    : (totalPrice = calculatedsubTotal + shippingAmount);
+  let totalPrice;
+  if (shippingAmount === "Free") {
+    totalPrice = calculatedsubTotal;
+  } else {
+    totalPrice = calculatedsubTotal + shippingAmount;
+  }
 
   return (
-    <Layout className="container mb-5">
+    <Layout title="Checkout" className="container mb-5">
       <div className="row">
         <div className="col-md-4 order-md-2 mb-4">
           <h4 className="d-flex justify-content-between align-items-center mb-3">
@@ -34,12 +121,17 @@ const CheckoutPage = () => {
             </span>
           </h4>
           <CheckoutSummary
+            setRun={setRun}
+            run={run}
             totalPrice={totalPrice}
             shippingCharges={shippingAmount}
             items={items}
           />
-          <Link to="/cart" style={{ textDecoration: 'none' }}>
-           <button className="btn btn-outline-danger btn-lg  btn-block" type="submit">
+          <Link to="/cart" style={{ textDecoration: "none" }}>
+            <button
+              className="btn btn-outline-danger btn-lg  btn-block"
+              type="submit"
+            >
               Back to Cart
             </button>
           </Link>
@@ -47,70 +139,44 @@ const CheckoutPage = () => {
 
         <div className="col-md-8 order-md-1">
           <h4 className="mb-3">Billing address</h4>
-          <form className="needs-validation" novalidate>
-            <div className="mb-3">
-              <label for="address">Address</label>
-              <input
-                type="text"
-                className="form-control"
-                id="address"
-                placeholder="1234 Main St"
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label for="address2">
-                Address 2 <span className="text-muted">(Optional)</span>
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="address2"
-                placeholder="Apartment or suite"
-              />
-            </div>
-
-            <div className="row">
-              <div className="col-md-5 mb-3">
-                <label for="country">Country</label>
-                <input
-                  className="form-control d-block w-100"
-                  id="country"
-                  required
-                />
-              </div>
-              <div className="col-md-4 mb-3">
-                <label for="state">State</label>
-                <input
-                  className="form-control d-block w-100"
-                  id="state"
-                  required
-                />
-              </div>
-              <div className="col-md-3 mb-3">
-                <label for="zip">Zip</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  id="zip"
-                  placeholder=""
-                  required
-                />
-              </div>
-            </div>
-            <hr className="mb-4" />
-            <h4 className="mb-3">Payment</h4>
-            <div className="row"></div>
-            <hr className="mb-4" />
-            <button className="btn btn-primary btn-lg btn-block" type="submit">
-              Continue to checkout
-            </button>
-          </form>
+          <AddressForm
+            onChangeHandler={onChangeHandler}
+            addressSubmitHandler={addressSubmitHandler}
+            address={address}
+          />
+          <hr className="mb-4" />
+          <button
+            className="btn btn-primary btn-lg btn-block"
+            onClick={handleShow}
+            type="submit"
+          >
+            Continue to pay
+          </button>
         </div>
       </div>
+      <PaymentModal
+        show={show}
+        handleClose={handleClose}
+        data={data}
+        items={items}
+        purchase={purchase}
+      />
+      <ToastContainer />
     </Layout>
   );
 };
 
 export default CheckoutPage;
+
+// const orderData = {
+//   products,
+//   transaction_id: response.transaction.id,
+//   amount: response.transaction.amount,
+// };
+
+// createOrder(userId, token, orderData);
+// setData({ ...data, success: response.success });
+// emptyCart(() => {
+//   setRun(!run);
+//   toast.success(`Payment of $${calculatedTotal()} was successful`);
+// });

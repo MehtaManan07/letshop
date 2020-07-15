@@ -35,21 +35,21 @@ const Checkout = ({ products, setRun = (f) => f, run = undefined }) => {
     getToken(userId, token);
   }, []);
 
-  const calculatedTotal = () => {
-    return products.reduce((currentValue, nextValue) => {
-      return currentValue + nextValue.count * nextValue.price;
-    }, 0);
-  };
+  // const calculatedTotal = () => {
+  //   return products.reduce((currentValue, nextValue) => {
+  //     return currentValue + nextValue.count * nextValue.price;
+  //   }, 0);
+  // };
 
-  const showChechout = () => {
-    return isAuth() ? (
-      <div> {showDropIn()} </div>
-    ) : (
-      <Link to="/login">
-        <button className="btn btn-primary">Login to checkout</button>
-      </Link>
-    );
-  };
+  // const showChechout = () => {
+  //   return isAuth() ? (
+  //     <div> {showDropIn()} </div>
+  //   ) : (
+  //     <Link to="/login">
+  //       <button className="btn btn-primary">Login to checkout</button>
+  //     </Link>
+  //   );
+  // };
 
   const purchase = () => {
     let nonce;

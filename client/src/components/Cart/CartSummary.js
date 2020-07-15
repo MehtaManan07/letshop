@@ -31,7 +31,11 @@ const CartSummary = ({
         </div>
         {isAuth() ? (
           <Link style={{ textDecoration: "none" }} to="/checkout">
-            <button type="button" className="btn btn-primary btn-lg btn-block">
+            <button
+              disabled={items.length > 0 ? false : true}
+              type="button"
+              className="btn btn-outline-primary btn-lg btn-block"
+            >
               Checkout
             </button>
           </Link>

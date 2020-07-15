@@ -15,8 +15,6 @@ const CartItem = ({
 }) => {
   const [count, setCount] = useState(product.count);
 
-  console.log(cartItemsCount());
-
   const handleChange = (productId) => (event) => {
     setRun(!run); // run useEffect in parent Cart
     setCount(event.target.value < 1 ? 1 : event.target.value);
@@ -43,7 +41,7 @@ const CartItem = ({
                 </div>
               </div>
               <div className="col-md-4 quantity">
-                <label for="quantity">Quantity:</label>
+                <label htmlFor="quantity">Quantity:</label>
                 {cartUpdate && (
                   <input
                     type="number"
