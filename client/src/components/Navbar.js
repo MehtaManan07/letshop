@@ -38,7 +38,7 @@ const Navbar = (props) => {
         style={isActive(props.history, "/userDashboard")}
         to="/userDashboard"
       >
-        Dashboard
+        <i className="fa fa-user">{' '}Dashboard</i>
       </Link>
       <li
         className="nav-item nav-link"
@@ -57,7 +57,7 @@ const Navbar = (props) => {
         style={isActive(props.history, "/adminDashboard")}
         to="/adminDashboard"
       >
-        DashBoardd
+        <i className="fa fa-user">Dashboardd</i>
       </Link>
       <li
         className="nav-item nav-link"

@@ -34,7 +34,7 @@ const CheckoutPage = () => {
     event.preventDefault();
     if (address.main === "" || address.state === "" || address.country === "") {
       toast.error(`All fields are required`);
-      console.log(address);
+      console.log('address');
     } else {
       setShow(true);
       const stateAddress = Object.values(address).join(", ");
