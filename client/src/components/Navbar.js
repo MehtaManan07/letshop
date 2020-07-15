@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { logout, isAuth } from "../functions/auth";
 import { cartItemsCount } from "../functions/cart";
 import "../App.css";
+import { Badge } from "react-bootstrap";
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
     return { color: "#ff9900" };
@@ -102,10 +103,10 @@ const Navbar = (props) => {
             style={isActive(props.history, "/cart")}
             to="/cart"
           >
-            Cart
+           <i className="fa fa-shopping-cart"></i> Cart
             <sup>
               {cartItemsCount() > 0 && (
-                <small className="cart-badge"> {cartItemsCount()} </small>
+                <Badge variant="success"> {cartItemsCount()} </Badge>
               )}
             </sup>
           </Link>

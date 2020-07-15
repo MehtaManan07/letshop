@@ -1,8 +1,12 @@
 import React from "react";
 
-const AddressForm = ({ onChangeHandler, addressSubmitHandler, address }) => {
+const AddressForm = ({
+  onChangeHandler,
+  addressSubmitHandler,
+  address,
+}) => {
   const { main, optional, country, zip, state } = address;
-  
+
   return (
     <form
       onSubmit={addressSubmitHandler}
@@ -18,7 +22,6 @@ const AddressForm = ({ onChangeHandler, addressSubmitHandler, address }) => {
           value={main}
           onChange={onChangeHandler("main")}
           placeholder="1234 Main St"
-          required
         />
       </div>
 
@@ -27,7 +30,6 @@ const AddressForm = ({ onChangeHandler, addressSubmitHandler, address }) => {
           Address 2 <span className="text-muted">(Optional)</span>
         </label>
         <input
-          required
           type="text"
           className="form-control"
           name="optional"
@@ -41,7 +43,6 @@ const AddressForm = ({ onChangeHandler, addressSubmitHandler, address }) => {
         <div className="col-md-5 mb-3">
           <label>State</label>
           <input
-            required
             className="form-control d-block w-100"
             onChange={onChangeHandler("state")}
             value={state}
@@ -51,7 +52,6 @@ const AddressForm = ({ onChangeHandler, addressSubmitHandler, address }) => {
         <div className="col-md-4 mb-3">
           <label>Country</label>
           <input
-            required
             className="form-control d-block w-100"
             name="country"
             onChange={onChangeHandler("country")}
@@ -67,10 +67,17 @@ const AddressForm = ({ onChangeHandler, addressSubmitHandler, address }) => {
             value={zip}
             onChange={onChangeHandler("zip")}
             placeholder=""
-            required
           />
         </div>
       </div>
+      <hr className="mb-4" />
+      <button
+        className="btn btn-primary btn-lg btn-block"
+        onClick={addressSubmitHandler}
+        // type="submit"
+      >
+        Continue to pay
+      </button>
     </form>
   );
 };

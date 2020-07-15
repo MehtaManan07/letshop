@@ -44,7 +44,9 @@ const CartPage = () => {
                     })}
                   </div>
                 ) : (
-                  "oops"
+                  <div className="d-flex justify-content-center align-middle">
+                  <i className="fa fa-shopping-cart fa-4x"> Your cart is empty </i>
+                  </div>
                 )}
               </div>
               <div className="col-md-12 col-lg-4">

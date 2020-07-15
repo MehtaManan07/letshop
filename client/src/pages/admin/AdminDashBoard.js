@@ -2,6 +2,8 @@ import React from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
 import { Link } from "react-router-dom";
+import { Table } from "react-bootstrap";
+
 const AdminDashboard = () => {
   const {
     data: {
@@ -12,32 +14,32 @@ const AdminDashboard = () => {
   const adminInfo = () => (
     <div className="card mb-5">
       <h3 className="card-header"> User Information </h3>
-      <table className="table">
+      <Table responsive>
         <thead>
           <tr>
-            <th scope="col"> # </th>
-            <th scope="col"> Fields </th>
-            <th scope="col"> Data </th>
+            <th>#</th>
+            <th>Fields</th>
+            <th>Data</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row"> 1 </th>
-            <th scope="row"> Name </th>
-            <th scope="row"> {name} </th>
+            <td>1</td>
+            <td>Name</td>
+            <td>{name}</td>
           </tr>
           <tr>
-            <th scope="row"> 2 </th>
-            <th scope="row"> Email </th>
-            <th scope="row"> {email} </th>
+            <td>2</td>
+            <td>Email</td>
+            <td>{email}</td>
           </tr>
           <tr>
-            <th scope="row"> 3 </th>
-            <th scope="row"> Role </th>
-            <th scope="row"> {role === 1 ? "Admin" : "Registered User"} </th>
+            <td>3</td>
+            <td>Role</td>
+            <td> <strong> {role === 1 ? "Admin" : "Registered User"} </strong> </td>
           </tr>
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 

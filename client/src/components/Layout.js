@@ -4,7 +4,7 @@ import '../App.css'
 
 const Layout = ({
   title = "Title",
-  description = "Description",
+  description,
   className,
   children,
 }) => {

@@ -25,13 +25,22 @@ const CheckoutPage = () => {
     country: "",
     state: "",
     zip: 0,
-  })
-
+  });
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const addressSubmitHandler = (event) => {
+    event.preventDefault();
+    if (address.main === "" || address.state === "" || address.country === "") {
+      toast.error(`All fields are required`);
+      console.log(address);
+    } else {
+      setShow(true);
+      const stateAddress = Object.values(address).join(", ");
+      console.log(stateAddress);
+    }
+  };
 
   const userId = isAuth() && isAuth().data.user._id;
   const token = isAuth() && isAuth().data.token;
@@ -65,6 +74,13 @@ const CheckoutPage = () => {
             handleClose();
             alert("hoorah");
             emptyCart(() => {
+              setAddress({
+                main: "",
+                optional: "",
+                country: "",
+                state: "",
+                zip: 0,
+              });
               setRun(!run);
             });
           })
@@ -80,17 +96,7 @@ const CheckoutPage = () => {
   };
 
   const onChangeHandler = (name) => (event) => {
-    setAddress({ ...address, [name]:event.target.value})
-  };
-
-  const addressSubmitHandler = (event) => {
-    event.preventDefault();
-    Object.values(address).map(value => {
-      console.log(value)
-    })
-    setData({ ...data,  address: address })
-    const stateAddress = Object.values(address).join(",");
-    console.log(stateAddress,address)
+    setAddress({ ...address, [name]: event.target.value });
   };
 
   useEffect(() => {
@@ -144,14 +150,6 @@ const CheckoutPage = () => {
             addressSubmitHandler={addressSubmitHandler}
             address={address}
           />
-          <hr className="mb-4" />
-          <button
-            className="btn btn-primary btn-lg btn-block"
-            onClick={handleShow}
-            type="submit"
-          >
-            Continue to pay
-          </button>
         </div>
       </div>
       <PaymentModal

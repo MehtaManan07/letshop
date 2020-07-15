@@ -1,10 +1,18 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 
 const Loader = () => {
   return (
-    <div className="alert alert-info">
-      <h2> Loading... </h2>
-    </div>
+    <Button variant="primary" disabled>
+    <Spinner
+      as="span"
+      animation="grow"
+      size="sm"
+      role="status"
+      aria-hidden="true"
+    />
+    Loading...
+  </Button>
   );
 };
 
