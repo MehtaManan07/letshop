@@ -13,6 +13,7 @@ import Shop from "./pages/Shop";
 import SingleProduct from "./pages/SingleProduct";
 import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
+import Orders from "./pages/admin/Orders";
 
 
 const Routes = () => {
@@ -20,8 +21,9 @@ const Routes = () => {
     <Fragment>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/login" component={Login} />
         <Route path="/cart" component={CartPage} />
+        <Route path="/orders" component={Orders} />
+        <Route path="/login" component={Login} />
         <Route path="/checkout" component={CheckoutPage} />
         <Route path="/shop" component={Shop} />
         <Route path="/product/:productId" component={SingleProduct} />

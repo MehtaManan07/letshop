@@ -1,0 +1,14 @@
+.total-orders {
+    width: 18rem !important;
+    border-bottom: 10px solid rgba(0, 255, 0, 1) !important;
+}
+
+.delivered-orders {
+    width: 18rem !important;
+    border-bottom: 10px solid rgba(0, 0, 255, 0.5) !important;
+}
+
+.orders-cancelled {
+    border-bottom: 10px solid rgba(255, 0, 0, 0.5) !important;
+    width: 8rem !important;
+}

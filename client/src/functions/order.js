@@ -22,3 +22,18 @@ export const createOrder = (userId, token, orderData) => {
       return error;
     });
 };
+
+export const listOrders = (userId, token) => {
+  return axios.get(`${API}/order/list/${userId}`, {
+    headers: {
+      'Content-Type': 'Application/json',
+      Authorization: `Bearer ${token}`
+    }
+  }).then(response => {
+    console.log(response);
+    return response.data;
+  }).catch(error => {
+    console.log(error)
+    return error
+  })
+}

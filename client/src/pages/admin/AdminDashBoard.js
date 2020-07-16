@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Table } from "react-bootstrap";
 
 const AdminDashboard = () => {
@@ -10,6 +10,10 @@ const AdminDashboard = () => {
       user: { name, email, role },
     },
   } = isAuth();
+
+  const redirect = (path) => {
+    return <Redirect to={path} />;
+  };
 
   const adminInfo = () => (
     <div className="card mb-5">
@@ -36,7 +40,9 @@ const AdminDashboard = () => {
           <tr>
             <td>3</td>
             <td>Role</td>
-            <td> <strong> {role === 1 ? "Admin" : "Registered User"} </strong> </td>
+            <td>
+              <strong> {role === 1 ? "Admin" : "Registered User"} </strong>
+            </td>
           </tr>
         </tbody>
       </Table>
@@ -64,7 +70,7 @@ const AdminDashboard = () => {
       <div className="card mb-5">
       <div className="row container">
         <h3 className="col-9"> Orders History </h3>
-        <button className="col-3 btn btn-outline-dark"> Details </button>
+        <Link to="/orders" className="col-3 btn btn-outline-dark"> Details </Link>
       </div>
         <li className="list-group-item"> Role </li>
       </div>
