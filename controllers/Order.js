@@ -1,5 +1,5 @@
 const { Order, CartItem } = require("../models/Order");
-const Users = require("../models/Users");
+const User = require("../models/Users");
 
 exports.createNewOrder = (req, res) => {
   req.body.order.user = req.profile;
@@ -27,7 +27,7 @@ exports.populateOrder = (req, res, next) => {
     });
   });
 
-  Users.findOneAndUpdate(
+  User.findOneAndUpdate(
     { _id: req.profile._id },
     { $push: { history: history } },
     { new: true },
@@ -37,7 +37,23 @@ exports.populateOrder = (req, res, next) => {
           .status(400)
           .json({ error: "Erro while updating user's purchase history" });
       }
-      next()
+      next();
     }
   );
+};
+
+exports.listAllOrders = (req, res) => {
+  Order.find()
+    .populate("User")
+    .sort("-createdAt")
+    .exec((error, orders) => {
+      if (error) {
+        console.log("error:", error);
+        return res
+          .status(400)
+          .json({ error: "Error while fetching all orders" });
+      }
+      res.json({ count: orders.length, orders });
+      console.log(orders);
+    });
 };

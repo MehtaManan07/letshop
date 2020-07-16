@@ -1,9 +1,10 @@
 const express = require("express");
 const { userById } = require("../controllers/User");
-const { isAuth, requireLogin } = require("../controllers/Auth");
+const { isAuth, requireLogin, isAdmin } = require("../controllers/Auth");
 const {
   createNewOrder,
   populateOrder,
+  listAllOrders,
 } = require("../controllers/Order");
 const { updateQuantity } = require("../controllers/Product");
 const router = express.Router();
@@ -16,6 +17,8 @@ router.post(
   updateQuantity,
   createNewOrder
 );
+
+router.get('/list/:userId', requireLogin, isAuth, isAdmin, listAllOrders)
 
 router.param("userId", userById);
 module.exports = router;
