@@ -95,7 +95,7 @@ export const processPaymentt = (userId, token, paymentData) => {
     console.log(response);
     return response.data
   }).catch(error => {
-    console.log(error)
+    console.log(error.message)
     return error
   })
 };

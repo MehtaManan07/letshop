@@ -35,7 +35,6 @@ const CheckoutPage = () => {
     event.preventDefault();
     if (address.main === "" || address.state === "" || address.country === "") {
       toast.error(`All fields are required`);
-      console.log("address");
     } else {
       setShow(true);
       setAddress(address)
@@ -61,7 +60,6 @@ const CheckoutPage = () => {
     let getnonce = data.instance
       .requestPaymentMethod()
       .then((response) => {
-        console.log(response);
         nonce = response.nonce;
         // console.log("Send nonce and total", nonce, calculatedTotal(products));
         const paymentData = {
@@ -71,7 +69,6 @@ const CheckoutPage = () => {
 
         processPaymentt(userId, token, paymentData)
           .then((response) => {
-            console.log(response);
             handleClose();
             const orderData = {
               products: items,

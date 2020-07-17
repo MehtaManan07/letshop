@@ -32,7 +32,6 @@ const Shop = () => {
   };
 
   const loadFilteredResults = (filter) => {
-    console.log(filter);
     getFilteredProducts(skip, limit, filter).then((response) => {
       if (response.error) {
         setError(response.error);
@@ -52,7 +51,6 @@ const Shop = () => {
         console.log(response);
         setFilteredResults([...filteredResults, ...response.data]);
         setSize(response.size);
-        console.log(size);
         setSkip(toSkip);
       }
     });
@@ -93,7 +91,6 @@ const Shop = () => {
       if (prices[key]._id === parseInt(value)) {
         console.log("values:", value);
         array = prices[key].array;
-        console.log(array);
       }
     }
     return array;

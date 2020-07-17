@@ -17,7 +17,6 @@ const ProductCard = ({ product, showVViewButton = true }) => {
 
   const addToCart = () => {
     addCartItem(product, () => {
-      console.log()
     })
   }
 

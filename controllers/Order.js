@@ -54,6 +54,5 @@ exports.listAllOrders = (req, res) => {
           .json({ error: "Error while fetching all orders" });
       }
       res.json({ count: orders.length, orders });
-      console.log(orders);
     });
 };
