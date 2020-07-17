@@ -17,9 +17,16 @@ const {
 const { requireLogin, isAdmin, isAuth } = require("../controllers/Auth");
 const { userById } = require("../controllers/User");
 
-router.post("/search", listSearches);
 router.get("/:productId", getProductById);
+router.get("/", getAllProducts);
+router.get("/related/:productId", getRelatedProducts);
+router.get("/categories", getCategories);
+router.get('/picture/:productId', getpicture)
+
+router.post("/search", listSearches);
 router.post("/create/:userId", requireLogin, isAuth, isAdmin, create);
+router.post('/by/search', listProductsBySearch)
+
 router.delete(
   "/:productId/:userId",
   requireLogin,
@@ -27,6 +34,7 @@ router.delete(
   isAuth,
   deleteProductById
 );
+
 router.put(
   "/:productId/:userId",
   requireLogin,
@@ -34,11 +42,6 @@ router.put(
   isAuth,
   updateProductById
 );
-router.get("/", getAllProducts);
-router.get("/related/:productId", getRelatedProducts);
-router.get("/categories", getCategories);
-router.post('/by/search', listProductsBySearch)
-router.get('/picture/:productId', getpicture)
 
 router.param("userId", userById);
 router.param("productId", productById);

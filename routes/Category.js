@@ -7,7 +7,9 @@ const { userById } = require("../controllers/User");
 
 router.get('/', getAllCategories)
 router.get('/:categoryId', getCategoryById)
+
 router.post("/create/:userId", requireLogin, isAuth, isAdmin, create);
+
 router.delete(
     "/:categoryId/:userId",
     requireLogin,
@@ -15,6 +17,7 @@ router.delete(
     isAuth,
     deleteCategoryById
   );
+
   router.put(
     "/:categoryId/:userId",
     requireLogin,

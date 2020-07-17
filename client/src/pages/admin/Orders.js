@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
-import { listOrders } from "../../functions/order";
+import { listOrders, getEnumValues } from "../../functions/order";
 import { isAuth } from "../../functions/auth";
 import Cards from "../../components/Admin/Cards";
-import { Table, Badge, Accordion, Card, Button } from "react-bootstrap";
+import { Table, Badge, Accordion, Card, Button, Form } from "react-bootstrap";
 import moment from "moment";
 import ProductsModal from "../../components/Admin/ProductsModal";
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [show, setShow] = useState(false);
   const [particularOrder, setParticularOrder] = useState();
+const [statusValues, setStatusValues] = useState([])
 
   const userId = isAuth() && isAuth().data.user._id;
   const token = isAuth() && isAuth().data.token;
@@ -30,8 +31,36 @@ const Orders = () => {
     });
   };
 
+  const loadStatusValues = (userId, token) => {
+    getEnumValues(userId, token).then((response) => {
+      console.log(response);
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        setStatusValues(response);
+      }
+    });
+  };
+
+  const handleStatusChange = (event, orderId) => {
+    alert(event)
+  }
+
+  const showStatus = (order) => (
+    <Form>
+    <Form.Control as="select" custom onChange={(event) => handleStatusChange(event,order._id)}>
+      <option>Select</option>
+      {statusValues.map(value => (
+        <option value={value} key={value}> {value} </option>
+      ))}
+    </Form.Control>
+    </Form>
+
+  )
+
   useEffect(() => {
     loadOrders(userId, token);
+    loadStatusValues(userId, token);
   }, []);
 
   return (
@@ -76,9 +105,7 @@ const Orders = () => {
                 <td>${order.amount}</td>
                 <td>Name</td>
                 <td>{moment(order.createdAt).fromNow()}</td>
-                <td>
-                  <Badge variant="success">{order.status}</Badge>
-                </td>
+                <td>{showStatus(order)}</td>
                 <td>{order.address}</td>
                 <td
                   className="btn btn-warning btn-sm"

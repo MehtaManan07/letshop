@@ -37,3 +37,18 @@ export const listOrders = (userId, token) => {
     return error
   })
 }
+
+export const getEnumValues = (userId, token) => {
+  return axios.get(`${API}/order/status-values/${userId}`, {
+    headers: {
+      'Content-Type': 'Application/json',
+      Authorization: `Bearer ${token}`
+    }
+  }).then(response => {
+    console.log(response);
+    return response.data;
+  }).catch(error => {
+    console.log(error)
+    return error
+  })
+}

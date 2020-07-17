@@ -5,6 +5,7 @@ const {
   createNewOrder,
   populateOrder,
   listAllOrders,
+  getStatusValues,
 } = require("../controllers/Order");
 const { updateQuantity } = require("../controllers/Product");
 const router = express.Router();
@@ -19,6 +20,7 @@ router.post(
 );
 
 router.get('/list/:userId', requireLogin, isAuth, isAdmin, listAllOrders)
+router.get('/status-values/:userId', requireLogin, isAuth, isAdmin, getStatusValues)
 
 router.param("userId", userById);
 module.exports = router;
