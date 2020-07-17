@@ -1,6 +1,18 @@
 const { Order, CartItem } = require("../models/Order");
 const User = require("../models/Users");
 
+exports.orderById = (req, res, next, id) => {
+  Order.findById(id)
+    .populate("products.product", "name price")
+    .exec((error, order) => {
+      if (error || !order) {
+        return res.json({ error: `User not found` });
+      }
+      req.order = order;
+      next();
+    });
+};
+
 exports.createNewOrder = (req, res) => {
   req.body.order.user = req.profile;
   const newOrder = new Order(req.body.order);
@@ -57,6 +69,21 @@ exports.listAllOrders = (req, res) => {
     });
 };
 
-exports.getStatusValues = (req,res) => {
-  res.json(Order.schema.path('status').enumValues)
-}
+exports.getStatusValues = (req, res) => {
+  res.json(Order.schema.path("status").enumValues);
+};
+
+exports.updateOrderStatus = (req, res) => {
+  Order.update(
+    { _id: req.body.orderId },
+    { $set: { status: req.body.status } },
+    (error, response) => {
+      if (error) {
+        console.log("error:", error);
+        return res
+          .status(400)
+          .json({ error: "Error while updating order status" });
+      }
+    }
+  );
+};
