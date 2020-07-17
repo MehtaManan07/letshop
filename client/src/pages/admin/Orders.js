@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
-import { listOrders, getEnumValues } from "../../functions/order";
+import {
+  listOrders,
+  getEnumValues,
+  updateEnumValues,
+} from "../../functions/order";
 import { isAuth } from "../../functions/auth";
 import Cards from "../../components/Admin/Cards";
-import { Table, Badge, Accordion, Card, Button, Form } from "react-bootstrap";
+import { Table, Form, Badge } from "react-bootstrap";
 import moment from "moment";
 import ProductsModal from "../../components/Admin/ProductsModal";
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [show, setShow] = useState(false);
   const [particularOrder, setParticularOrder] = useState();
-const [statusValues, setStatusValues] = useState([])
+  const [statusValues, setStatusValues] = useState([]);
 
   const userId = isAuth() && isAuth().data.user._id;
   const token = isAuth() && isAuth().data.token;
-
-  const triggerModal = (order) => {
-    setShow(true);
-    return;
-  };
 
   const loadOrders = (userId, token) => {
     listOrders(userId, token).then((response) => {
@@ -43,20 +43,33 @@ const [statusValues, setStatusValues] = useState([])
   };
 
   const handleStatusChange = (event, orderId) => {
-    alert(event)
-  }
+    updateEnumValues(userId, token, orderId, event.target.value).then(
+      (response) => {
+        if (response.error) {
+          console.log(response.error);
+        } else {
+          loadOrders();
+        }
+      }
+    );
+  };
 
   const showStatus = (order) => (
     <Form>
-    <Form.Control as="select" custom onChange={(event) => handleStatusChange(event,order._id)}>
-      <option>Select</option>
-      {statusValues.map(value => (
-        <option value={value} key={value}> {value} </option>
-      ))}
-    </Form.Control>
+      <Form.Control
+        as="select"
+        custom
+        onChange={(event) => handleStatusChange(event, order._id)}
+      >
+        <option>Select</option>
+        {statusValues.map((value, index) => (
+          <option value={value} key={index}>
+            {value}
+          </option>
+        ))}
+      </Form.Control>
     </Form>
-
-  )
+  );
 
   useEffect(() => {
     loadOrders(userId, token);
@@ -81,6 +94,7 @@ const [statusValues, setStatusValues] = useState([])
           <hr />
         </div>
       )}
+      <h3 className=" bg-light d-flex justify-content-center"> Orders </h3>
       <Table responsive striped bordered hover>
         <thead>
           <tr>
@@ -97,27 +111,28 @@ const [statusValues, setStatusValues] = useState([])
         </thead>
         <tbody>
           {orders.map((order, i) => (
-            <>
-              <tr style={{ cursor: "pointer" }} key={i}>
-                <td>{i + 1}</td>
-                <td>{order._id}</td>
-                {/* <td>{order.transaction_id}</td> */}
-                <td>${order.amount}</td>
-                <td>Name</td>
-                <td>{moment(order.createdAt).fromNow()}</td>
-                <td>{showStatus(order)}</td>
-                <td>{order.address}</td>
-                <td
-                  className="btn btn-warning btn-sm"
-                  onClick={() => {
-                    setParticularOrder(order)
-                    setShow(true)
-                    }}
-                >
-                  View Products
-                </td>
-              </tr>
-            </>
+            <tr style={{ cursor: "pointer" }} key={i}>
+              <td>{i + 1}</td>
+              <td>{order._id}</td>
+              {/* <td>{order.transaction_id}</td> */}
+              <td>${order.amount}</td>
+              <td>{order.user.name}</td>
+              <td>{moment(order.createdAt).fromNow()}</td>
+              <td>
+                <Badge variant="success"> {order.status} </Badge>
+              </td>
+              {/* <td>{showStatus(order)}</td> */}
+              <td>{order.address}</td>
+              <td
+                className="btn btn-warning btn-sm"
+                onClick={() => {
+                  setParticularOrder(order);
+                  setShow(true);
+                }}
+              >
+                View Products
+              </td>
+            </tr>
           ))}
           <ProductsModal
             order={particularOrder}

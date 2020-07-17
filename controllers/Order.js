@@ -6,7 +6,7 @@ exports.orderById = (req, res, next, id) => {
     .populate("products.product", "name price")
     .exec((error, order) => {
       if (error || !order) {
-        return res.json({ error: `User not found` });
+        return res.json({ error: `Order not found` });
       }
       req.order = order;
       next();
@@ -56,7 +56,7 @@ exports.populateOrder = (req, res, next) => {
 
 exports.listAllOrders = (req, res) => {
   Order.find()
-    .populate("User")
+    .populate("user")
     .sort("-createdAt")
     .exec((error, orders) => {
       if (error) {
@@ -74,16 +74,20 @@ exports.getStatusValues = (req, res) => {
 };
 
 exports.updateOrderStatus = (req, res) => {
+  let status = req.body.status
+  console.log(req.params.orderId)
   Order.update(
-    { _id: req.body.orderId },
-    { $set: { status: req.body.status } },
-    (error, response) => {
-      if (error) {
-        console.log("error:", error);
-        return res
-          .status(400)
-          .json({ error: "Error while updating order status" });
+    { _id: req.params.orderId },
+    { $set: status },
+    (err, order) => {
+      if (err) {
+        console.log(err)
+        return res.status(400).json({
+          error: 'Error while updating status'
+        });
       }
+      console.log(order)
+      res.json(order);
     }
   );
 };
