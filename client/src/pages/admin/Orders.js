@@ -121,10 +121,10 @@ const Orders = () => {
               <td>${order.amount}</td>
               <td>{order.user.name}</td>
               <td>{moment(order.createdAt).fromNow()}</td>
-              {/* <td>
+              <td>
                 <Badge variant="success"> {order.status} </Badge>
-              </td> */}
-              <td>{showStatus(order)}</td>
+              </td>
+              {/* <td>{showStatus(order)}</td> */}
               <td>{order.address}</td>
               <td
                 className="btn btn-warning btn-sm"

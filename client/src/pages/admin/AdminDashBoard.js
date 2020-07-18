@@ -68,10 +68,13 @@ const AdminDashboard = () => {
   const ordersHistory = () => {
     return (
       <div className="card mb-5">
-      <div className="row container">
-        <h3 className="col-9"> Orders History </h3>
-        <Link to="/orders" className="col-3 btn btn-outline-dark"> Details </Link>
-      </div>
+        <div className="row container">
+          <h3 className="col-9"> Orders History </h3>
+          <Link to="/orders" className="col-3 btn btn-outline-dark">
+            {" "}
+            Details{" "}
+          </Link>
+        </div>
         <li className="list-group-item"> Role </li>
       </div>
     );
@@ -83,6 +86,26 @@ const AdminDashboard = () => {
       className="container"
       description={`Hello ${name}`}
     >
+      <div className="col-xl-3 col-md-6 mb-4">
+        <div className="card border-left-primary shadow h-100 py-2">
+          <div className="card-body">
+            <div className="row no-gutters align-items-center">
+              <div className="col mr-2">
+                <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                  Earnings (Monthly)
+                </div>
+                <div className="h5 mb-0 font-weight-bold text-gray-800">
+                  $40,000
+                </div>
+              </div>
+              <div className="col-auto">
+                <i className="fas fa-calendar fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="row">
         <div className="col-3"> {adminLinks()} </div>
         <div className="col-9">
