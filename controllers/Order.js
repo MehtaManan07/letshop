@@ -74,20 +74,42 @@ exports.getStatusValues = (req, res) => {
 };
 
 exports.updateOrderStatus = (req, res) => {
-  let status = req.body.status
-  console.log(req.params.orderId)
-  Order.update(
-    { _id: req.params.orderId },
-    { $set: status },
-    (err, order) => {
-      if (err) {
-        console.log(err)
-        return res.status(400).json({
-          error: 'Error while updating status'
-        });
-      }
-      console.log(order)
-      res.json(order);
+  let status = req.body.status;
+  let orderId = req.params.orderId;
+  console.log(req.params, req.body);
+
+  Order.findById(orderId, (error, response) => {
+    if (error || !response) {
+      console.log(error);
+      return res.status(400).json({
+        error: "Error while updating status",
+      });
+    } else {
+      response.status = status
     }
-  );
+    response.save((error, updatedStatus) => {
+      if (error) {
+        console.log("Status UPDATE ERROR", error);
+        return res.status(400).json({
+          error: "status update failed",
+        });
+      } else {
+        res.status(200).json(updatedStatus);
+      }
+    })
+  });
 };
+// Order.update(
+//   { _id: req.params.orderId },
+//   { $set: status },
+//   (err, order) => {
+//     if (err) {
+//       console.log(err)
+//       return res.status(400).json({
+//         error: 'Error while updating status'
+//       });
+//     }
+//     console.log(order)
+//     res.json(order);
+//   }
+// );

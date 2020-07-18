@@ -20,6 +20,8 @@ const Orders = () => {
   const userId = isAuth() && isAuth().data.user._id;
   const token = isAuth() && isAuth().data.token;
 
+  console.log(isAuth())
+
   const loadOrders = (userId, token) => {
     listOrders(userId, token).then((response) => {
       console.log(response);
@@ -42,9 +44,10 @@ const Orders = () => {
     });
   };
 
-  const handleStatusChange = (event, orderId) => {
-    updateEnumValues(userId, token, orderId, event.target.value).then(
+  const handleStatusChange = (event, Id) => {
+    updateEnumValues(token, Id, event.target.value, userId).then(
       (response) => {
+        console.log(response)
         if (response.error) {
           console.log(response.error);
         } else {
@@ -118,10 +121,10 @@ const Orders = () => {
               <td>${order.amount}</td>
               <td>{order.user.name}</td>
               <td>{moment(order.createdAt).fromNow()}</td>
-              <td>
+              {/* <td>
                 <Badge variant="success"> {order.status} </Badge>
-              </td>
-              {/* <td>{showStatus(order)}</td> */}
+              </td> */}
+              <td>{showStatus(order)}</td>
               <td>{order.address}</td>
               <td
                 className="btn btn-warning btn-sm"

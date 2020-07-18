@@ -6,7 +6,7 @@ import { Table } from "react-bootstrap";
 const UserDashboard = () => {
   const {
     data: {
-      user: { name, email, role },
+      user: { name, email, role, _id },
     },
   } = isAuth();
 
@@ -52,7 +52,7 @@ const UserDashboard = () => {
           <Link className="nav-link" to="/cart">
             My Cart
           </Link>
-          <Link className="nav-link" to="/profile/update">
+          <Link className="nav-link" to={`/user/profile/${_id}`}>
             Update Profile
           </Link>
         </ul>

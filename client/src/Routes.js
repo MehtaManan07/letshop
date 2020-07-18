@@ -14,6 +14,7 @@ import SingleProduct from "./pages/SingleProduct";
 import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
 import Orders from "./pages/admin/Orders";
+import Profile from "./pages/user/Profile";
 
 
 const Routes = () => {
@@ -28,6 +29,7 @@ const Routes = () => {
         <Route path="/shop" component={Shop} />
         <Route path="/product/:productId" component={SingleProduct} />
         <Route path="/register" component={Register} />
+        <PrivateRoute path="/user/profile/:userId" component={Profile} />
         <PrivateRoute path="/userDashboard" component={UserDashboard} />
         <AdminRoute path="/adminDashboard" component={AdminDashboard} />
         <AdminRoute path="/create/category" component={AddCategory} />

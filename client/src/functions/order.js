@@ -59,24 +59,21 @@ export const getEnumValues = (userId, token) => {
     });
 };
 
-export const updateEnumValues = ( userId, token, orderId, status) => {
+export const updateEnumValues = (token, orderId, status, userId) => {
+  let url = `${API}/order/${orderId}/status/${userId}`;
+  console.log(url)
   return axios
-    .put(
-      `${API}/order/${orderId}/status/${userId}`,
-      JSON.stringify({ status, orderId }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    .put(url, status, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((response) => {
       console.log(response);
       return response.data;
     })
     .catch((error) => {
-      console.log(error.response);
+      console.log(error.data);
       return error;
     });
 };
