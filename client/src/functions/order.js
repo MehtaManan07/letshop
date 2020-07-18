@@ -63,7 +63,7 @@ export const updateEnumValues = (token, orderId, status, userId) => {
   let url = `${API}/order/${orderId}/status/${userId}`;
   console.log(url)
   return axios
-    .put(url, status, {
+    .put(url, JSON.stringify(status), {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
+import { getUserProfile } from "../../functions/user";
+import UserPurchaseHistory from "../../components/Auth/UserPurchaseHistory";
 const UserDashboard = () => {
+
+  const [orders, setOrders] = useState([])
+
+  const loadOrders = (userId) => {
+    getUserProfile(userId, token).then(response => {
+      let purchaseHistory = response.history;
+      setOrders(purchaseHistory)
+    })
+  }
+
+  useEffect(() => {
+    loadOrders(_id)
+  },[])
+
   const {
     data: {
       user: { name, email, role, _id },
+      token
     },
   } = isAuth();
 
@@ -64,7 +81,7 @@ const UserDashboard = () => {
     return (
       <div className="card mb-5">
         <h3 className="card-header"> Purchase History </h3>
-        <li className="list-group-item"> Role </li>
+        <UserPurchaseHistory orders={orders} />
       </div>
     );
   };

@@ -22,7 +22,7 @@ const Orders = () => {
 
   console.log(isAuth())
 
-  const loadOrders = (userId, token) => {
+  const loadOrders = (userId, token) => { 
     listOrders(userId, token).then((response) => {
       console.log(response);
       if (response.error) {
