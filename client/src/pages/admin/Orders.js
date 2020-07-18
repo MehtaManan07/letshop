@@ -7,7 +7,7 @@ import {
 } from "../../functions/order";
 import { isAuth } from "../../functions/auth";
 import Cards from "../../components/Admin/Cards";
-import { Table, Form, Badge } from "react-bootstrap";
+import { Table, Form, Badge, CardDeck } from "react-bootstrap";
 import moment from "moment";
 import ProductsModal from "../../components/Admin/ProductsModal";
 
@@ -19,6 +19,26 @@ const Orders = () => {
 
   const userId = isAuth() && isAuth().data.user._id;
   const token = isAuth() && isAuth().data.token;
+
+  const cards = [{
+    className: 'total-orders',
+    color: 'rgba(0,255,0,0.5)',
+    endNum: orders.length,
+    cardText: 'Total number of Orders till date',
+    cardTitle: 'Total Orders'
+  },{
+    className: 'delivered-orders',
+    color: 'rgba(0,0,255,0.5)',
+    endNum: orders.length,
+    cardText: 'Total number of Orders delivered till date',
+    cardTitle: 'Delivered Orders'
+  },{
+    className: 'orders-cancelled',
+    color: 'rgba(255,0,0,0.5)',
+    endNum: orders.length,
+    cardText: 'Total number of Orders cancelled till date',
+    cardTitle: 'Cancelled Orders'
+  },]
 
   console.log(isAuth())
 
@@ -86,16 +106,19 @@ const Orders = () => {
       className="container"
     >
       {orders && (
-        <div className="container">
+        <CardDeck>
+        {
+          cards.map(card => (
           <Cards
-            header="Orders"
-            title="Total Orders"
-            endTotal={orders.length}
-            endDelivered={orders.length}
-            endCancelled={orders.length}
+            className={card.className}
+            cardTitle={card.cardTitle}
+            endNum={card.endNum}
+            color={card.color}
+            cardText={card.cardText}
           />
-          <hr />
-        </div>
+          ))
+        }
+        </CardDeck>
       )}
       <h3 className=" bg-light d-flex justify-content-center"> Orders </h3>
       <Table responsive striped bordered hover>
