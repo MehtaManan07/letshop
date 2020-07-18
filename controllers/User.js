@@ -33,3 +33,9 @@ exports.updateProfile = (req, res) => {
     }
   );
 };
+
+exports.getAllUsers = (req,res) => {
+  User.find().exec((error, users) => {
+    res.json(users)
+  })
+}

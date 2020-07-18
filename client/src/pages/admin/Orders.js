@@ -21,19 +21,19 @@ const Orders = () => {
   const token = isAuth() && isAuth().data.token;
 
   const cards = [{
-    className: 'total-orders',
+    className: 'green-border',
     color: 'rgba(0,255,0,0.5)',
     endNum: orders.length,
     cardText: 'Total number of Orders till date',
     cardTitle: 'Total Orders'
   },{
-    className: 'delivered-orders',
+    className: 'blue-border',
     color: 'rgba(0,0,255,0.5)',
     endNum: orders.length,
     cardText: 'Total number of Orders delivered till date',
     cardTitle: 'Delivered Orders'
   },{
-    className: 'orders-cancelled',
+    className: 'red-border',
     color: 'rgba(255,0,0,0.5)',
     endNum: orders.length,
     cardText: 'Total number of Orders cancelled till date',

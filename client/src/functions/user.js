@@ -45,3 +45,14 @@ export const updateUser = (user, next) => {
     }
   }
 };
+
+export const getAllUsers = () => {
+  return Axios.get(`${API}/user`)
+  .then(response => {
+    console.log(response);
+    return response.data;
+  }).catch(error => {
+    console.log(error);
+    return error
+  })
+}

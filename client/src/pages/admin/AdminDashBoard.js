@@ -1,53 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
-import { Link, Redirect } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Table, CardDeck } from "react-bootstrap";
+import Cards from "../../components/Admin/Cards";
+import { listOrders } from "../../functions/order";
+import { getAllUsers } from "../../functions/user";
 
 const AdminDashboard = () => {
+  const [orders, setOrders] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [products, setProducts] = useState([]);
+
   const {
     data: {
-      user: { name, email, role },
+      user: { _id, name, email, role },
+      token,
     },
   } = isAuth();
 
-  const redirect = (path) => {
-    return <Redirect to={path} />;
+  useEffect(() => {
+    loadOrders(_id, token);
+    loadUsers();
+  }, []);
+
+  const loadOrders = (userId, token) => {
+    listOrders(userId, token).then((response) => {
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        setOrders(response.orders);
+      }
+    });
   };
 
-  const adminInfo = () => (
-    <div className="card mb-5">
-      <h3 className="card-header"> User Information </h3>
-      <Table responsive>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Fields</th>
-            <th>Data</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Name</td>
-            <td>{name}</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Email</td>
-            <td>{email}</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Role</td>
-            <td>
-              <strong> {role === 1 ? "Admin" : "Registered User"} </strong>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
-  );
+  const loadUsers = () => {
+    getAllUsers().then((response) => {
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        setUsers(response);
+      }
+    });
+  };
 
   const adminLinks = () => {
     return (
@@ -71,8 +66,7 @@ const AdminDashboard = () => {
         <div className="row container">
           <h3 className="col-9"> Orders History </h3>
           <Link to="/orders" className="col-3 btn btn-outline-dark">
-            {" "}
-            Details{" "}
+            Details
           </Link>
         </div>
         <li className="list-group-item"> Role </li>
@@ -80,38 +74,51 @@ const AdminDashboard = () => {
     );
   };
 
+  const cards = [
+    {
+      className: "green-border",
+      color: "rgba(0,255,0,0.5)",
+      endNum: orders.length,
+      cardText: "Total number of Orders till date",
+      cardTitle: "Total Orders",
+    },
+    {
+      className: "blue-border",
+      color: "rgba(0,0,255,0.5)",
+      endNum: users.length,
+      cardText: "Total number of Users delivered till date",
+      cardTitle: "Total Users",
+    },
+    {
+      className: "red-border",
+      color: "rgba(255,0,0,0.5)",
+      endNum: orders.length,
+      cardText: "Total number of Orders cancelled till date",
+      cardTitle: "Cancelled Orders",
+    },
+  ];
+
   return (
     <Layout
       title="Admin Dashboard"
       className="container"
       description={`Hello ${name}`}
     >
-      <div className="col-xl-3 col-md-6 mb-4">
-        <div className="card border-left-primary shadow h-100 py-2">
-          <div className="card-body">
-            <div className="row no-gutters align-items-center">
-              <div className="col mr-2">
-                <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                  Earnings (Monthly)
-                </div>
-                <div className="h5 mb-0 font-weight-bold text-gray-800">
-                  $40,000
-                </div>
-              </div>
-              <div className="col-auto">
-                <i className="fas fa-calendar fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <CardDeck>
+        {cards.map((card) => (
+          <Cards
+            className={card.className}
+            cardTitle={card.cardTitle}
+            endNum={card.endNum}
+            color={card.color}
+            cardText={card.cardText}
+          />
+        ))}
+      </CardDeck>
+      <hr />
       <div className="row">
         <div className="col-3"> {adminLinks()} </div>
-        <div className="col-9">
-          {adminInfo()}
-          {ordersHistory()}
-        </div>
+        <div className="col-9">{ordersHistory()}</div>
       </div>
     </Layout>
   );
