@@ -51,6 +51,7 @@ const AdminDashboard = () => {
       if (response.error) {
         console.log(response.error);
       } else {
+        console.log('users:',response)
         setUsers(response);
       }
     });
@@ -121,6 +122,7 @@ const AdminDashboard = () => {
       cardTitle: "Total Revenue",
     },
   ];
+
 
   const loadProductsBySell = () => {
     getProducts("sold", 5).then((response) => {

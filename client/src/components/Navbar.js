@@ -59,7 +59,7 @@ const Navbar = (props) => {
         style={isActive(props.history, "/adminDashboard")}
         to="/adminDashboard"
       >
-        <i className="fa fa-user">{' '}Dashboardd</i>
+        <i className="fa fa-user">{' '}Dashboard</i>
       </Link>
       <li
         className="nav-item nav-link"
