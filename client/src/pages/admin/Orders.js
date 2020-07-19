@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
+import Chart from "../../components/Admin/Chart";
 import {
   listOrders,
   getEnumValues,
@@ -7,9 +8,8 @@ import {
 } from "../../functions/order";
 import { isAuth } from "../../functions/auth";
 import Cards from "../../components/Admin/Cards";
-import { Table, Form, Badge, CardDeck } from "react-bootstrap";
-import moment from "moment";
-import ProductsModal from "../../components/Admin/ProductsModal";
+import { Form, CardDeck } from "react-bootstrap";
+import OrderTable from "../../components/Admin/OrderTable";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -20,31 +20,32 @@ const Orders = () => {
   const userId = isAuth() && isAuth().data.user._id;
   const token = isAuth() && isAuth().data.token;
 
-  const cards = [{
-    className: 'green-border',
-    color: 'rgba(0,255,0,0.5)',
-    endNum: orders.length,
-    cardText: 'Total number of Orders till date',
-    cardTitle: 'Total Orders'
-  },{
-    className: 'blue-border',
-    color: 'rgba(0,0,255,0.5)',
-    endNum: orders.length,
-    cardText: 'Total number of Orders delivered till date',
-    cardTitle: 'Delivered Orders'
-  },{
-    className: 'red-border',
-    color: 'rgba(255,0,0,0.5)',
-    endNum: orders.length,
-    cardText: 'Total number of Orders cancelled till date',
-    cardTitle: 'Cancelled Orders'
-  },]
+  const cards = [
+    {
+      className: "green-border",
+      color: "rgba(0,255,0,0.5)",
+      endNum: orders.length,
+      cardText: "Total number of Orders till date",
+      cardTitle: "Total Orders",
+    },
+    {
+      className: "blue-border",
+      color: "rgba(0,0,255,0.5)",
+      endNum: orders.length,
+      cardText: "Total number of Orders delivered till date",
+      cardTitle: "Delivered Orders",
+    },
+    {
+      className: "red-border",
+      color: "rgba(255,0,0,0.5)",
+      endNum: orders.length,
+      cardText: "Total number of Orders cancelled till date",
+      cardTitle: "Cancelled Orders",
+    },
+  ];
 
-  console.log(isAuth())
-
-  const loadOrders = (userId, token) => { 
+  const loadOrders = (userId, token) => {
     listOrders(userId, token).then((response) => {
-      console.log(response);
       if (response.error) {
         console.log(response.error);
       } else {
@@ -53,9 +54,13 @@ const Orders = () => {
     });
   };
 
+  const onClickHandler = (order) => {
+    setParticularOrder(order);
+    setShow(true);
+  };
+
   const loadStatusValues = (userId, token) => {
     getEnumValues(userId, token).then((response) => {
-      console.log(response);
       if (response.error) {
         console.log(response.error);
       } else {
@@ -65,16 +70,13 @@ const Orders = () => {
   };
 
   const handleStatusChange = (event, Id) => {
-    updateEnumValues(token, Id, event.target.value, userId).then(
-      (response) => {
-        console.log(response)
-        if (response.error) {
-          console.log(response.error);
-        } else {
-          loadOrders();
-        }
+    updateEnumValues(token, Id, event.target.value, userId).then((response) => {
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        loadOrders();
       }
-    );
+    });
   };
 
   const showStatus = (order) => (
@@ -107,66 +109,26 @@ const Orders = () => {
     >
       {orders && (
         <CardDeck>
-        {
-          cards.map(card => (
-          <Cards
-            className={card.className}
-            cardTitle={card.cardTitle}
-            endNum={card.endNum}
-            color={card.color}
-            cardText={card.cardText}
-          />
-          ))
-        }
+          {cards.map((card) => (
+            <Cards
+              className={card.className}
+              cardTitle={card.cardTitle}
+              endNum={card.endNum}
+              color={card.color}
+              cardText={card.cardText}
+            />
+          ))}
         </CardDeck>
       )}
       <h3 className=" bg-light d-flex justify-content-center"> Orders </h3>
-      <Table responsive striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Order Id</th>
-            {/* <th>Transaction Id</th> */}
-            <th>Amount</th>
-            <th>User</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Address</th>
-            <th>Products</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order, i) => (
-            <tr style={{ cursor: "pointer" }} key={i}>
-              <td>{i + 1}</td>
-              <td>{order._id}</td>
-              {/* <td>{order.transaction_id}</td> */}
-              <td>${order.amount}</td>
-              <td>{order.user.name}</td>
-              <td>{moment(order.createdAt).fromNow()}</td>
-              <td>
-                <Badge variant="success"> {order.status} </Badge>
-              </td>
-              {/* <td>{showStatus(order)}</td> */}
-              <td>{order.address}</td>
-              <td
-                className="btn btn-warning btn-sm"
-                onClick={() => {
-                  setParticularOrder(order);
-                  setShow(true);
-                }}
-              >
-                View Products
-              </td>
-            </tr>
-          ))}
-          <ProductsModal
-            order={particularOrder}
-            show={show}
-            onHide={() => setShow(false)}
-          />
-        </tbody>
-      </Table>
+      <OrderTable
+        orders={orders}
+        onClickHandler={onClickHandler}
+        setShow={setShow}
+        show={show}
+        particularOrder={particularOrder}
+      />
+      <Chart orders={orders} />
     </Layout>
   );
 };

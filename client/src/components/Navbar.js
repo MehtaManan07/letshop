@@ -3,7 +3,9 @@ import { Link, withRouter } from "react-router-dom";
 import { logout, isAuth } from "../functions/auth";
 import { cartItemsCount } from "../functions/cart";
 import "../App.css";
-import { Badge } from "react-bootstrap";
+import { Badge, NavbarBrand } from "react-bootstrap";
+import Sidebar from "./Admin/Sidebar";
+
 const isActive = (history, path) => {
   if (history.location.pathname === path) {
     return { color: "#ff9900" };
@@ -71,6 +73,9 @@ const Navbar = (props) => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <NavbarBrand>
+      {isAuth() && isAuth().data.user.role === 1 && <Sidebar />}
+      </NavbarBrand>
       <Link
         to="/"
         style={isActive(props.history, "/")}

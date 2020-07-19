@@ -2,15 +2,20 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
 import { Link } from "react-router-dom";
-import { Table, CardDeck } from "react-bootstrap";
+import { CardDeck, Table } from "react-bootstrap";
+import Chart from "../../components/Admin/Chart";
 import Cards from "../../components/Admin/Cards";
 import { listOrders } from "../../functions/order";
 import { getAllUsers } from "../../functions/user";
+import { getProducts } from "../../functions/core";
+import OrderTable from "../../components/Admin/OrderTable";
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [productsBySell, setProductsBySell] = useState([]);
+  const [show, setShow] = useState(false);
+  const [particularOrder, setParticularOrder] = useState();
 
   const {
     data: {
@@ -22,13 +27,20 @@ const AdminDashboard = () => {
   useEffect(() => {
     loadOrders(_id, token);
     loadUsers();
+    loadProductsBySell();
   }, []);
+
+  const onClickHandler = (order) => {
+    setParticularOrder(order);
+    setShow(true);
+  };
 
   const loadOrders = (userId, token) => {
     listOrders(userId, token).then((response) => {
       if (response.error) {
         console.log(response.error);
       } else {
+        console.log(response);
         setOrders(response.orders);
       }
     });
@@ -42,6 +54,11 @@ const AdminDashboard = () => {
         setUsers(response);
       }
     });
+  };
+
+  const totalRevenue = (values, key) => {
+    const revenue = values.reduce((prev, curr) => prev + (curr[key] || 0), 0);
+    return revenue;
   };
 
   const adminLinks = () => {
@@ -62,14 +79,21 @@ const AdminDashboard = () => {
 
   const ordersHistory = () => {
     return (
-      <div className="card mb-5">
-        <div className="row container">
-          <h3 className="col-9"> Orders History </h3>
-          <Link to="/orders" className="col-3 btn btn-outline-dark">
-            Details
-          </Link>
+      <div class="col-xl-12 col-lg-5">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">Lastest Orders</h6>
         </div>
-        <li className="list-group-item"> Role </li>
+        <div class="card-body">
+        <OrderTable
+        orders={orders.slice(0,5)}
+        onClickHandler={onClickHandler}
+        setShow={setShow}
+        show={show}
+        particularOrder={particularOrder}
+      />
+        </div>
+      </div>
       </div>
     );
   };
@@ -92,11 +116,21 @@ const AdminDashboard = () => {
     {
       className: "red-border",
       color: "rgba(255,0,0,0.5)",
-      endNum: orders.length,
-      cardText: "Total number of Orders cancelled till date",
-      cardTitle: "Cancelled Orders",
+      endNum: totalRevenue(orders, "amount"),
+      cardText: "Total revenue generated till date",
+      cardTitle: "Total Revenue",
     },
   ];
+
+  const loadProductsBySell = () => {
+    getProducts("sold", 5).then((response) => {
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        setProductsBySell(response.data);
+      }
+    });
+  };
 
   return (
     <Layout
@@ -104,6 +138,7 @@ const AdminDashboard = () => {
       className="container"
       description={`Hello ${name}`}
     >
+    <div className="row d-flex justify-content-center">
       <CardDeck>
         {cards.map((card) => (
           <Cards
@@ -115,11 +150,56 @@ const AdminDashboard = () => {
           />
         ))}
       </CardDeck>
+    </div>
       <hr />
       <div className="row">
-        <div className="col-3"> {adminLinks()} </div>
-        <div className="col-9">{ordersHistory()}</div>
+        <div className="col-xl-8 col-lg-7">
+          <div className="card shadow mb-4">
+            <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 className="m-0 font-weight-bold text-primary">
+                Earnings Overview
+              </h6>
+            </div>
+            <div className="card-body">
+              <div className="chart-area">
+                {orders && <Chart orders={orders} />}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-lg-5">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Best Sellers</h6>
+            </div>
+            <div class="card-body">
+              <Table bordered striped responsive hover>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Items sold</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {productsBySell.map((product, i) => (
+                    <tr key={product._id}>
+                      <td> {i + 1} </td>
+                      <td> {product.name} </td>
+                      <td> $ {product.price} </td>
+                      <td> {product.sold} </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          </div>
+          <div className="row">
+          </div>
+        </div>
       </div>
+            {ordersHistory()}
     </Layout>
   );
 };

@@ -15,6 +15,7 @@ import CartPage from "./pages/cart/CartPage";
 import CheckoutPage from "./pages/checkout/CheckoutPage";
 import Orders from "./pages/admin/Orders";
 import Profile from "./pages/user/Profile";
+import Sidebar from "./components/Admin/Sidebar";
 
 
 const Routes = () => {
@@ -23,6 +24,7 @@ const Routes = () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/cart" component={CartPage} />
+        <Route path="/sidebar" component={Sidebar} />
         <Route path="/orders" component={Orders} />
         <Route path="/login" component={Login} />
         <Route path="/checkout" component={CheckoutPage} />
