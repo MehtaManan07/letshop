@@ -16,6 +16,7 @@ import CheckoutPage from "./pages/checkout/CheckoutPage";
 import Orders from "./pages/admin/Orders";
 import Profile from "./pages/user/Profile";
 import Sidebar from "./components/Admin/Sidebar";
+import ManageProducts from "./pages/admin/ManageProducts";
 
 
 const Routes = () => {
@@ -36,6 +37,7 @@ const Routes = () => {
         <AdminRoute path="/adminDashboard" component={AdminDashboard} />
         <AdminRoute path="/create/category" component={AddCategory} />
         <AdminRoute path="/create/product" component={AddProduct} />
+        <AdminRoute path="/products" component={ManageProducts} />
       </Switch>
     </Fragment>
   );
