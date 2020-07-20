@@ -4,18 +4,7 @@ import { Form, Row } from "react-bootstrap";
 const AddProductForm = ({ buttonText, values, onSubmitHandler, handleChange }) => {
   return (
     <form className="mb-3" onSubmit={onSubmitHandler}>
-      <h4>Post Image</h4>
-      <div className="form-group">
-        <label className="btn btn-secondary">
-          <input
-            onChange={handleChange("picture")}
-            type="file"
-            name="picture"
-            accept="image/*"
-            required
-          />
-        </label>
-      </div>
+      <hr />
 
       <div className="form-group">
         <label className="text-muted">Name</label>
@@ -45,6 +34,18 @@ const AddProductForm = ({ buttonText, values, onSubmitHandler, handleChange }) =
           min="1"
           value={values.price}
         />
+      </div>
+
+      <div className="form-group">
+        <label className="btn btn-secondary">
+          <input
+            onChange={handleChange("picture")}
+            type="file"
+            name="picture"
+            accept="image/*"
+            required
+          />
+        </label>
       </div>
 
       <div className="form-group">
