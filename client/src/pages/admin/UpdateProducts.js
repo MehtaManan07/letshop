@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/Layout";
 import { isAuth } from "../../functions/auth";
-import { createProduct, getCategories } from "../../functions/admin";
+import { getCategories, updateParticularProduct } from "../../functions/admin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import AddProductForm from "../../components/Product/AddProductForm";
+import { getSingleProduct } from "../../functions/core";
 
-const AddProduct = () => {
+const UpdateProduct = (props) => {
   const [values, setValues] = useState({
     name: "",
     description: "",
@@ -17,7 +18,6 @@ const AddProduct = () => {
     quantity: "",
     picture: "",
     loading: false,
-    error: "",
     createdProduct: "",
     redirectToProfile: false,
     formData: "",
@@ -28,7 +28,29 @@ const AddProduct = () => {
     data: { user, token },
   } = isAuth();
 
-  const init = () => {
+  const init = (productId) => {
+    getSingleProduct(productId).then((response) => {
+      if (response.error) {
+        console.log(response.error);
+      } else {
+        console.log(response)
+        setValues({
+          ...values,
+          name: response.data.name,
+          description: response.data.description,
+          price: response.data.price,
+          category: response.data.category,
+          category: response.data.category._id,
+          shipping: response.data.shipping,
+          quantity: response.data.quantity,
+          formData: new FormData(),
+        });
+        loadCategories();
+      }
+    });
+  };
+
+  const loadCategories = () => {
     getCategories().then((response) => {
       if (response.error) {
         setValues({ ...values, error: response.error });
@@ -36,7 +58,6 @@ const AddProduct = () => {
       } else {
         response.data &&
           setValues({
-            ...values,
             categories: response.data,
             categoryCount: response.data.length,
             formData: new FormData(),
@@ -46,7 +67,7 @@ const AddProduct = () => {
   };
 
   useEffect(() => {
-    init();
+    init(props.match.params.productId);
   }, []);
 
   const handleChange = (name) => (event) => {
@@ -60,12 +81,17 @@ const AddProduct = () => {
     event.preventDefault();
     setValues({ ...values, error: "", loading: true });
 
-    createProduct(user._id, token, values.formData).then((data) => {
+    updateParticularProduct(
+      props.match.params.productId,
+      user._id,
+      token,
+      values.formData
+    ).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
         toast.error(data.error);
       } else {
-        toast.success(`Product created successfully`);
+        toast.success(`Product updated successfully`);
         setValues({
           ...values,
           picture: "",
@@ -88,7 +114,7 @@ const AddProduct = () => {
             values={values}
             onSubmitHandler={onSubmitHandler}
             handleChange={handleChange}
-            buttonText="Add Product"
+            buttonText="Update Product"
           />
         </div>
       </div>
@@ -97,4 +123,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

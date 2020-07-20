@@ -17,6 +17,7 @@ import Orders from "./pages/admin/Orders";
 import Profile from "./pages/user/Profile";
 import Sidebar from "./components/Admin/Sidebar";
 import ManageProducts from "./pages/admin/ManageProducts";
+import UpdateProduct from "./pages/admin/UpdateProducts";
 
 
 const Routes = () => {
@@ -37,6 +38,7 @@ const Routes = () => {
         <AdminRoute path="/adminDashboard" component={AdminDashboard} />
         <AdminRoute path="/create/category" component={AddCategory} />
         <AdminRoute path="/create/product" component={AddProduct} />
+        <AdminRoute path="/update/product/:productId" component={UpdateProduct} />
         <AdminRoute path="/products" component={ManageProducts} />
       </Switch>
     </Fragment>

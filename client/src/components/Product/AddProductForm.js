@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Row } from "react-bootstrap";
 
-const AddProductForm = ({ values, onSubmitHandler, handleChange }) => {
+const AddProductForm = ({ buttonText, values, onSubmitHandler, handleChange }) => {
   return (
     <form className="mb-3" onSubmit={onSubmitHandler}>
       <h4>Post Image</h4>
@@ -80,7 +80,7 @@ const AddProductForm = ({ values, onSubmitHandler, handleChange }) => {
         />
       </div>
       <div className="d-flex justify-content-center">
-        <button className="btn btn-outline-success col-md-6">Create Product</button>
+        <button className="btn btn-outline-success col-md-6">{buttonText}</button>
       </div>
     </form>
   );

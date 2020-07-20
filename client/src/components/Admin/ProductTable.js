@@ -1,7 +1,9 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { Redirect, Link } from "react-router-dom";
 
-const ProductTable = ({ products, editProduct, deleteOneProduct }) => {
+const ProductTable = ({ products, deleteOneProduct }) => {
+
   return (
     <Table responsive bordered hover striped>
       <thead>
@@ -34,16 +36,17 @@ const ProductTable = ({ products, editProduct, deleteOneProduct }) => {
             </td>
             <td>
               <div className="d-flex justify-content-around">
+              <Link to={`/update/product/${product._id}`}>
               <i
                 style={{ cursor: "pointer", color: 'rgba(0,0,255,0.5)' }}
-                onClick={editProduct}
                 className="fa fa-edit"
-              />{" "}
+              />
+              </Link>
               <i
                 style={{ cursor: "pointer", color: 'rgba(255,0,0,0.5)' }}
                 onClick={() => deleteOneProduct(product._id)}
                 className="fa fa-trash"
-              />{" "}
+              />
               </div>
             </td>
           </tr>
