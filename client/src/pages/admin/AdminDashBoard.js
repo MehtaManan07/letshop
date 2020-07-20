@@ -106,6 +106,7 @@ const AdminDashboard = () => {
       endNum: orders.length,
       cardText: "Total number of Orders till date",
       cardTitle: "Total Orders",
+      dollar: false
     },
     {
       className: "blue-border",
@@ -113,6 +114,7 @@ const AdminDashboard = () => {
       endNum: users.length,
       cardText: "Total number of Users delivered till date",
       cardTitle: "Total Users",
+      dollar: false
     },
     {
       className: "red-border",
@@ -120,6 +122,7 @@ const AdminDashboard = () => {
       endNum: totalRevenue(orders, "amount"),
       cardText: "Total revenue generated till date",
       cardTitle: "Total Revenue",
+      dollar: true
     },
   ];
 
@@ -149,6 +152,7 @@ const AdminDashboard = () => {
             endNum={card.endNum}
             color={card.color}
             cardText={card.cardText}
+            dollar={card.dollar}
           />
         ))}
       </CardDeck>
