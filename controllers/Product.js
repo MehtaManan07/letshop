@@ -73,16 +73,14 @@ exports.getProductById = (req, res) => {
 };
 
 exports.deleteProductById = (req, res) => {
-  let product = req.product;
-  product.remove((error, deletedProduct) => {
+  let productId = req.product._id;
+  Product.findByIdAndRemove(productId, (error, deletedProduct) => {
     if (error) {
-      return res.status(400).json({
-        error: "Product cannot not be deleted",
-      });
+      res.status(400).json({ error: "Erro while deleting the product" });
+    } else {
+      res.status(200).json({ message: `Product deleted successfully`, deletedProduct });
     }
-    res.json({ deletedProduct });
   });
-  res.json(req.product);
 };
 
 exports.updateProductById = (req, res) => {

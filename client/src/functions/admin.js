@@ -50,3 +50,50 @@ export const getCategories = () => {
       return error;
     });
 };
+
+export const getProducts = () => {
+  return Axios
+    .get(`${API}/product?limit=10000000000000`)
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+};
+
+export const deleteParticularProduct = (productId, userId, token) => {
+  return Axios
+    .delete(`${API}/product/${productId}/${userId}`,{
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+};
+
+export const updateParticularProduct = (productId, userId, token, product) => {
+  return Axios
+    .put(`${API}/product/${productId}/${userId}`,product,{
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+};
+
