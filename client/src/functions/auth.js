@@ -55,3 +55,4 @@ export const register = (user) => {
       return JSON.parse(localStorage.getItem('jwt'))
     } else return false;
   }
+  

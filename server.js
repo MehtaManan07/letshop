@@ -30,7 +30,7 @@ app.use("/api/product", require("./routes/Product"));
 app.use('/api/payment', require('./routes/braintree'))
 app.use('/api/order', require('./routes/Order'))
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.listen(port, () => {
   console.log(`app running at http://localhost:${port}/`.bgBlue);

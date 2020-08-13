@@ -54,6 +54,7 @@ const AddProduct = () => {
       name === "picture" ? event.target.files[0] : event.target.value;
     values.formData.set(name, value);
     setValues({ ...values, [name]: value });
+    console.log(values)
   };
 
   const onSubmitHandler = (event) => {

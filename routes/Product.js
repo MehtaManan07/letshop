@@ -9,10 +9,10 @@ const {
   updateProductById,
   getAllProducts,
   getRelatedProducts,
-  getCategories,
   listProductsBySearch,
   getpicture,
   listSearches,
+  getProductsByCategory,
 } = require("../controllers/Product");
 const { requireLogin, isAdmin, isAuth } = require("../controllers/Auth");
 const { userById } = require("../controllers/User");
@@ -20,11 +20,11 @@ const { userById } = require("../controllers/User");
 router.get("/:productId", getProductById);
 router.get("/", getAllProducts);
 router.get("/related/:productId", getRelatedProducts);
-router.get("/categories", getCategories);
+router.get("/categories", getProductsByCategory);
 router.get('/picture/:productId', getpicture)
 
 router.post("/search", listSearches);
-router.post("/create/:userId", requireLogin, isAuth, isAdmin, create);
+router.post("/create/",create);
 router.post('/by/search', listProductsBySearch)
 
 router.delete(

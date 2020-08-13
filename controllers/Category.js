@@ -50,7 +50,7 @@ exports.updateCategoryById = (req, res) => {
 
 exports.deleteCategoryById = (req, res) => {
   const category = req.category;
-  category.save((error, deletedCategory) => {
+  category.remove((error, deletedCategory) => {
     if (error) {
       return res.status(400).json({
         error: "Category cannot not be deleted",

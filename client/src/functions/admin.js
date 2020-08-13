@@ -80,9 +80,43 @@ export const deleteParticularProduct = (productId, userId, token) => {
     });
 };
 
+export const deleteParticularCategory = (categoryId, userId, token) => {
+  return Axios
+    .delete(`${API}/category/${categoryId}/${userId}`,{
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+};
+
 export const updateParticularProduct = (productId, userId, token, product) => {
   return Axios
     .put(`${API}/product/${productId}/${userId}`,product,{
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
+};
+
+export const updateParticularCategory = (categoryId, userId, token, category) => {
+  return Axios
+    .put(`${API}/category/${categoryId}/${userId}`,category,{
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${token}`,

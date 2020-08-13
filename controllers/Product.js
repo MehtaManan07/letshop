@@ -8,7 +8,7 @@ const { updateOne } = require("../models/product");
 exports.productById = (req, res, next, id) => {
   Product.findById(id)
     .populate("category")
-    .exec((err, product) => {
+    .exec((err, product) => { 
       if (err || !product) {
         console.log("PRODUCT NOT FOUND", err);
         return res.status(400).json({
@@ -22,7 +22,9 @@ exports.productById = (req, res, next, id) => {
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
+  console.log("reached-1")
   form.parse(req, (error, fields, files) => {
+    console.log("reached-2",files)
     if (error) {
       return res.status(400).json({
         error: "Image cannot not be uploaded",
@@ -34,18 +36,19 @@ exports.create = (req, res) => {
       !name ||
       !description ||
       !price ||
-      !category ||
-      !quantity ||
-      !shipping
+      // !category ||
+      // !shipping ||
+      !quantity 
     ) {
       return res.status(400).json({
         error: "All fields are required",
-      });
-    }
-
+      
+    })
+  }
     let product = new Product(fields);
 
     if (files.picture) {
+      console.log(files.picture)
       if (files.picture.size > 10 ** 6) {
         return res.status(400).json({
           error: "Size of picture must be less than 1 mb",
@@ -162,21 +165,12 @@ exports.getRelatedProducts = (req, res) => {
     });
 };
 
-exports.getCategories = (req, res) => {
-  Product.distinct("category", {}, (error, data) => {
-    if (error) {
-      return res.status(400).json({ error: `Categories not found` });
-    }
-    res.json({ count: data.length, data });
-  });
-};
-
 /**
  * list products by search
  * we will implement product search in react frontend
  * we will show categories in checkbox and price range in radio buttons
  * as the user clicks on those checkbox and radio buttons
- * we will make api request and show the products to users based on what they need 9227193553
+ * we will make api request and show the products to users based on what they need
  */
 
 exports.listProductsBySearch = (req, res) => {
@@ -273,3 +267,7 @@ exports.updateQuantity = (req, res, next) => {
     next();
   });
 };
+
+exports.getProductsByCategory = (req,res) => {
+  
+}

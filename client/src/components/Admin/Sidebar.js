@@ -20,6 +20,7 @@ const Sidebar = () => {
         <Link to="/">BOOKMART</Link>
         <hr style={{ color: '#FFF' }} />
         <Link to="/orders">Orders</Link>
+        <Link to="/create/category">Manage Categories</Link>
         <Link to="/create/product">Add Product</Link>
         <Link to="/products">Products</Link>
         <Link to="/analytics">Analytics</Link>
