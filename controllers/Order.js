@@ -41,7 +41,7 @@ exports.populateOrder = (req, res, next) => {
 
   User.findOneAndUpdate(
     { _id: req.profile._id },
-    { $push: { history: history } },
+    { $push: { history } },
     { new: true },
     (error, data) => {
       if (error) {
