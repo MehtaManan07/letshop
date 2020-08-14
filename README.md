@@ -12,7 +12,7 @@
  -> Reactjs for frontend
  <hr>
 
-<h4>#Features</h4>
+<h2>#Features</h2>
 
 <h3>For users</h3>
 -> Search products based on particular category
