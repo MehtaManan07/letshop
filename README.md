@@ -91,3 +91,5 @@
 -> Tracking orders for users
 
 -> Update profile
+
+-> Complete responsiveness
