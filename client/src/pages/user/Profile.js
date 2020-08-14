@@ -30,8 +30,8 @@ const Profile = ({ match }) => {
   },[])
   
   return (
-    <Layout title="User Profile" className="container">
-      hello there
+    <Layout title="User Profile" className="container analytics">
+      
     </Layout>
   );
 };

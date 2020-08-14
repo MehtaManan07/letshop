@@ -11,7 +11,8 @@
  <br>
  -> Reactjs for frontend
  <hr>
-
+(As the main focus was on features, the website is not responsive)
+<hr>
 <h2>#Features</h2>
 
 <h3>For users</h3>
@@ -49,8 +50,6 @@
 
 -> Success message
 
--> Update profile
-
 -> Secured authentication with jwt
 
 -> Advance search based on category and price range
@@ -61,7 +60,7 @@
 
 -> Admin dashboard
 
--> Private routes 
+-> Private routes
 
 -> Admin routes
 
@@ -83,6 +82,12 @@
 
 -> Role based access
 
--> Analytics page(yet to come)
+<h5> YET TO COME </h5>
 
-(As the main focus was on features, the website is not responsive)
+-> Analytics page
+
+-> Updating status of order for admin
+
+-> Tracking orders for users
+
+-> Update profile
