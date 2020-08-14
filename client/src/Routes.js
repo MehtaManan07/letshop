@@ -18,6 +18,7 @@ import Profile from "./pages/user/Profile";
 import Sidebar from "./components/Admin/Sidebar";
 import ManageProducts from "./pages/admin/ManageProducts";
 import UpdateProduct from "./pages/admin/UpdateProducts";
+import Analytics from "./pages/admin/Analytics";
 
 
 const Routes = () => {
@@ -35,6 +36,7 @@ const Routes = () => {
         <Route path="/register" component={Register} />
         <PrivateRoute path="/user/profile/:userId" component={Profile} />
         <PrivateRoute path="/userDashboard" component={UserDashboard} />
+        <AdminRoute path="/analytics" component={Analytics} />
         <AdminRoute path="/adminDashboard" component={AdminDashboard} />
         <AdminRoute path="/create/category" component={AddCategory} />
         <AdminRoute path="/create/product" component={AddProduct} />

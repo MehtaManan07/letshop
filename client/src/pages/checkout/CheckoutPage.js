@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { toast, ToastContainer } from "react-toastify";
 import { createOrder } from "../../functions/order";
 
-const CheckoutPage = () => {
+const CheckoutPage = ({ history }) => {
   const [items, setItems] = useState([]);
   const [run, setRun] = useState(false);
   const [data, setData] = useState({
@@ -77,7 +77,7 @@ const CheckoutPage = () => {
               address: billingAddress
             };
             createOrder(userId, token, orderData)
-            .then(respons => {
+            .then(response => {
               emptyCart(() => {
                 setAddress({
                   main: "",
@@ -88,6 +88,7 @@ const CheckoutPage = () => {
                 });
                 setRun(!run);
               });
+              history.push(`/user/dashboard`)
             })
           })
           .catch((error) => {

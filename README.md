@@ -43,13 +43,15 @@
 
 -> Shopping cart
 
--> Checkout with credit card
+-> Checkout with credit card (dummy for now)
 
 -> Checkout with delivery address
 
 -> Success message
 
 -> Update profile
+
+-> Secured authentication with jwt
 
 -> Advance search based on category and price range
 
@@ -80,3 +82,7 @@
 -> Manage products update/delete
 
 -> Role based access
+
+-> Analytics page(yet to come)
+
+(As the main focus was on features, the website is not responsive)
