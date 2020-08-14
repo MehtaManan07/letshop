@@ -10,8 +10,8 @@ import LoginForm from "../../components/Auth/LoginForm";
 
 const Login = () => {
   const [values, setValues] = useState({
-    email: "a@b.com",
-    password: "password",
+    email: "",
+    password: "",
     error: "",
     loading: false,
     redirectToRef: false,

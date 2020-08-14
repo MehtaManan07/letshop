@@ -31,7 +31,7 @@ const ProductsModal = ({ show, onHide, order }) => {
                 <td>{index + 1}</td>
                 <td>{product._id}</td>
                 <td>{product.name}</td>
-                <td>{product.price}</td>
+                <td>${product.price}</td>
                 <td>{product.count}</td>
                 <td>{product.count*product.price}</td>
               </tr>
