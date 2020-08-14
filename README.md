@@ -92,4 +92,6 @@
 
 -> Update profile
 
+-> Ratings
+
 -> Complete responsiveness
