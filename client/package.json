@@ -11,7 +11,7 @@
     "braintree-web-drop-in-react": "^1.1.1",
     "chart.js": "^2.9.3",
     "moment": "^2.27.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.2.2",
